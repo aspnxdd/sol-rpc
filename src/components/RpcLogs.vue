@@ -26,8 +26,10 @@ onUpdated(() => {
   <div>
     <code class="code">
       <h3>Logs</h3>
-      <span v-for="log in logsStore.logs" :key="log">
-        {{ splitLog(log) }}
+      <span v-for="(log, i) in logsStore.logs" :key="log">
+        <p>
+          {{ log }}
+        </p>
       </span>
     </code>
     <button @click="logsStore.clearLogs">Clear logs</button>
@@ -42,6 +44,10 @@ hr {
   width: 13rem;
 }
 h3 {
+  margin: 1rem;
+  text-align: left;
+}
+p {
   margin: 1rem;
   text-align: left;
 }

@@ -14,13 +14,18 @@ function getMethods() {
   args.value = params;
 }
 async function runMethod() {
+  const requestLog = `⚓ Sending request to ${methodStore.method}`;
+  logsStore.setLogs(requestLog);
+
   const f = (await new RpcMethods()[methodStore.method as keyof RPCMethods](
     ...form.value
   )) as Record<string, any>;
-  console.log("f", f);
+  console.log("f",f);
 
-  logsStore.setLogs(JSON.parse(JSON.stringify(f)));
-  console.log(123,toRaw(logsStore.logs))
+  logsStore.setLogs(`✅ Node response:
+   ${Object.keys(f)}:
+    ${Object.values(f)}`);
+  console.log(123, toRaw(logsStore.logs));
 }
 onBeforeUpdate(() => {
   if (methodStore.method) {
