@@ -25,7 +25,10 @@ onUpdated(() => {
 <template>
   <div class="container">
     <code>
+    <div class="sticky">
       <h3>Logs</h3>
+      <button @click="logsStore.clearLogs">Clear logs</button>
+    </div>
       <span v-for="(log, i) in logsStore.logs" :key="log">
         <p v-if="log.includes('Error')" class="error">
           {{ log }}
@@ -37,7 +40,6 @@ onUpdated(() => {
           ✅ Node response:<pre>{{ log }}</pre>
         </p>
       </span>
-    <button @click="logsStore.clearLogs">Clear logs</button>
     </code>
   </div>
 </template>
@@ -91,13 +93,33 @@ code {
   color: #ffffff;
   width:100%;
   height:100%;
-  overflow: scroll;
   position: relative;
+  overflow-x: hidden;
+
 }
-code button {
-  position: absolute;
-  bottom: 0;
-  left:0;
-  margin:0.5rem;
+
+
+code .sticky {
+  position: sticky;
+  top:0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-right:1rem;
+  background-color: rgb(20, 19, 19);
+
+}
+code .sticky button {
+  background-color: rgb(202, 202, 202);
+  color: #000000;
+  border-radius: 0.5rem;
+  border: 0;
+  padding: 0.4rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+h3{
+  height:100%;
 }
 </style>
