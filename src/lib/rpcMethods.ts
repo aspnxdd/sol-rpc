@@ -9,7 +9,7 @@ abstract class RPC {
 }
 type Address = string;
 export interface RPCMethods {
-  getBalance: (address: string) => Promise<{ balance: number }>;
+  getBalance: (address: string) => Promise<{ balance: number; error?: string }>;
   getLatestBlockhash: (address: string) => Promise<
     Readonly<{
       blockhash: string;
@@ -27,13 +27,20 @@ export class RpcMethods extends RPC implements RPCMethods {
     super();
   }
 
-  async getBalance(address: string): Promise<{ balance: number }> {
-    console.log("getBalance", address);
-    const balance = await this.connection.getBalance(
-      new web3.PublicKey(address)
-    );
-    console.log(1, balance);
-    return { balance };
+  async getBalance(
+    address: string
+  ): Promise<{ balance: number; error?: string }> {
+    try {
+      console.log("getBalance", address);
+      const balance = await this.connection.getBalance(
+        new web3.PublicKey(address)
+      );
+      console.log(1, balance);
+      return { balance };
+    } catch (err) {
+      console.log(err);
+      return { balance: 0, error: (err as Error).message };
+    }
   }
 
   public async getAccountInfo(

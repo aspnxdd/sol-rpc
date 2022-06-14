@@ -5,11 +5,9 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RpcBar: typeof import('./src/components/RpcBar.vue')['default']
     RpcLogs: typeof import('./src/components/RpcLogs.vue')['default']
     RpcMethodArgs: typeof import('./src/components/RpcMethodArgs.vue')['default']
-    'RpcMethodArgs copy': typeof import('./src/components/RpcMethodArgs copy.vue')['default']
     RpcMethods: typeof import('./src/components/RpcMethods.vue')['default']
     RpcTopBar: typeof import('./src/components/RpcTopBar.vue')['default']
     Wallet: typeof import('./src/components/Wallet.vue')['default']

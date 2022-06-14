@@ -13,38 +13,66 @@ const methods = ref<Methods[]>([
 </script>
 
 <template>
-  <div>
-    <h3>Methods:</h3>
-    <span v-for="method in methods" v-if="rpcStore.url">
-      <p @click="() => methodStore.setMethod(method)">{{ method }}</p>
-    </span>
-    <span v-else> Enter a valid RPC url </span>
+  <div class="container">
+    <div>
+      <h3>Methods:</h3>
+      <div class="methods">
+        <span v-for="method in methods" v-if="rpcStore.url">
+          <p @click="() => methodStore.setMethod(method)">{{ method }}</p>
+          <strong>></strong>
+        </span>
+        <h4 v-else>Enter a valid RPC url</h4>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-div {
+.container {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.25rem;
-  width: 90%;
-  margin-left: 1rem;
+  height: 100%;
+  width: 30vw;
+  height: 79vh;
 }
-p {
-  border: 1px solid #ccc;
+.container > div {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  width: 90%;
+}
+.methods {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 0.5rem;
   border-radius: 0.5rem;
+  margin-left: 1rem;
+  border: #e1ecf7 1.5px solid;
+}
+
+span strong {
+  padding-right: 1rem;
+  transform: scaleY(1.5) scaleX(0.9);
+  color: rgb(5, 52, 122);
+}
+span p {
   margin: 0;
-  width: 10rem;
+  width: 100%;
   text-align: left;
   cursor: default;
-}
-code {
-  background-color: #eee;
-  padding: 2px 4px;
-  border-radius: 4px;
-  color: #304455;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: bold;
 }
 </style>

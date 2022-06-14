@@ -34,33 +34,50 @@ const setRpcUrl = computed(() => {
 </script>
 
 <template>
-  <span v-if="error"> Invalid RPC endpoint</span>
+  <div class="container">
+    <span v-if="error"> Invalid RPC endpoint</span>
 
-  <span v-else> RPC url: {{ rpcStore.url }}</span>
-  <input
-    type="text"
-    v-model="rpc"
-    placeholder="https://api.devnet.solana.com/"
-  />
-  <button @click="() => setRpcUrl">Set</button>
+    <span v-else> RPC url: {{ rpcStore.url }}</span>
+    <input
+      type="text"
+      v-model="rpc"
+      placeholder="https://api.devnet.solana.com/"
+    />
+    <button @click="() => setRpcUrl">Set RPC node</button>
+  </div>
 </template>
 
 <style scoped>
-* {
+.container {
   position: relative;
   display: flex;
+  flex-direction: column;
   width: 90%;
   margin-left: 1rem;
+  margin-top: 4rem;
+}
+.container input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: #b3b6b9 1.5px solid;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+span {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 button {
   width: fit-content;
   background-color: cornflowerblue;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   padding: 0.4rem;
   padding-left: 1rem;
   padding-right: 1rem;
   border-radius: 0.5rem;
-  border: 1px solid rgb(45, 90, 173);
+  border: 0;
+  color: whitesmoke;
+  width: min(8rem, 30%);
   transition: all 0.2s ease-in-out;
   font-family: "Roboto", sans-serif;
 }

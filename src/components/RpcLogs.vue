@@ -23,20 +23,36 @@ onUpdated(() => {
 </script>
 
 <template>
-  <div>
-    <code class="code">
+  <div class="container">
+    <code>
       <h3>Logs</h3>
       <span v-for="(log, i) in logsStore.logs" :key="log">
-        <p>
+        <p v-if="log.includes('Error')" class="error">
           {{ log }}
         </p>
+        <p v-else-if="log.includes('Sending request to')">
+          {{ log }}
+        </p>
+        <p v-else>
+          ✅ Node response:<pre>{{ log }}</pre>
+        </p>
       </span>
-    </code>
     <button @click="logsStore.clearLogs">Clear logs</button>
+    </code>
   </div>
 </template>
 
 <style scoped>
+.container {
+   margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  min-width: 39vw;
+  height: 79vh;
+
+}
 hr {
   margin: 0;
   border: 0;
@@ -50,23 +66,38 @@ h3 {
 p {
   margin: 1rem;
   text-align: left;
+  padding: 0.2rem;
 }
-div {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.25rem;
-  width: 90%;
-  margin-left: 1rem;
+
+p.error {
+  background-color: rgba(255, 0, 0, 0.315);
+  border-top: 1px solid red;
+  border-bottom: 1px solid red;
 }
+p pre {
+  margin-left:1rem;
+  background-color: rgb(48, 48, 48);
+  padding:0.5rem;
+  border-radius: 0.5rem;
+  text-overflow: clip;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
 
 code {
   background-color: rgb(27, 26, 26);
-  padding: 2px 4px;
   border-radius: 4px;
   color: #ffffff;
-  width: 36rem;
-  height: 50vh;
+  width:100%;
+  height:100%;
+  overflow: scroll;
+  position: relative;
+}
+code button {
+  position: absolute;
+  bottom: 0;
+  left:0;
+  margin:0.5rem;
 }
 </style>

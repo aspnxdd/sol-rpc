@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import RpcMethods from "@components/RpcMethods.vue";
 import Wallet from "@components/Wallet.vue";
 import RpcBar from "@components/RpcBar.vue";
@@ -14,28 +12,43 @@ import RpcTopBar from "@components/RpcTopBar.vue";
 
   <RpcBar />
   <div class="grid">
-    <RpcMethods />
-    <RpcMethodArgs />
-    <RpcLogs />
+      <RpcMethods />
+      <RpcMethodArgs />
+      <RpcLogs />
   </div>
 </template>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-html,
-* {
+*,
+*::after,
+*::before {
   font-family: "Roboto", sans-serif;
-}
-#app {
+  box-sizing: content-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+body {
+  margin:0;
+}
+html {
+  height: 100vh;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+
 }
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 0.5rem;
+  display: flex;
+  width: 100%;
+
+}
+
+.grid > div {
+  border: #e1ecf7 2px solid;
+}
+.grid > div:nth-child(1n + 2) {
+  border-left: 0;
 }
 </style>
