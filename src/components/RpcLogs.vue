@@ -69,6 +69,8 @@ p {
   margin: 1rem;
   text-align: left;
   padding: 0.2rem;
+  font-family: Consolas,monaco,monospace; 
+
 }
 
 p.error {
@@ -84,6 +86,8 @@ p pre {
   text-overflow: clip;
   white-space: pre-wrap;
   word-wrap: break-word;
+  font-family: Consolas,monaco,monospace; 
+
 }
 
 
