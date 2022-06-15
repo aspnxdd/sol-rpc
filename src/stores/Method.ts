@@ -1,18 +1,20 @@
-import { reactive } from "vue";
 import { RpcMethods } from "@lib/rpcMethods";
+import { defineStore } from "pinia";
 
 export type Methods = keyof RpcMethods &
   Exclude<keyof RpcMethods, "connection"> &
   Exclude<keyof RpcMethods, "rpcUrl">;
 
-interface Method {
-  method: Methods | "";
-  setMethod(url: Methods): void;
-}
 
-export const methodStore = reactive<Method>({
-  method: "",
-  setMethod(selectedMethod: Methods) {
-    this.method = selectedMethod;
+ const useMethodsStore = defineStore("methodsStore", {
+  state: () => ({
+    method: null as null | string,
+  }),
+  actions: {
+    setMethod(selectedMethod: Methods) {
+      this.method = selectedMethod;
+    },
   },
 });
+
+export default useMethodsStore;

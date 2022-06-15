@@ -1,10 +1,9 @@
 import * as web3 from "@solana/web3.js";
-import { rpcStore } from "@stores/RPC";
 
 abstract class RPC {
   connection: web3.Connection;
-  constructor() {
-    this.connection = new web3.Connection(rpcStore.url);
+  constructor(url: string) {
+    this.connection = new web3.Connection(url!);
   }
 }
 type Address = string;
@@ -23,8 +22,8 @@ export interface RPCMethods {
   getSupply(): Promise<web3.Supply>;
 }
 export class RpcMethods extends RPC implements RPCMethods {
-  constructor() {
-    super();
+  constructor(url: string) {
+    super(url);
   }
 
   async getBalance(

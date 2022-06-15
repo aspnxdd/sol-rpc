@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { ref, onBeforeUpdate, toRaw } from "vue";
-import { methodStore } from "@stores/Method";
+import { ref, onBeforeUpdate } from "vue";
 import { RpcMethods, RPCMethods } from "@lib/rpcMethods";
 import { getParamNames, capitalize } from "@lib/utils";
-import { logsStore } from "@stores/Logs";
+import { useRpcStore, useLogsStore, useMethodsStore } from "@stores";
 
+const rpcStore = useRpcStore();
+const methodStore = useMethodsStore();
+const logsStore = useLogsStore();
 const args = ref<any[]>([]);
 const form = ref<any[]>([]);
 function getMethods() {
-  const f = new RpcMethods()[methodStore.method as keyof RPCMethods];
+  const f = new RpcMethods(rpcStore.url!)[
+    methodStore.method as keyof RPCMethods
+  ];
   const params = getParamNames(f) as Parameters<typeof f>;
   console.log("pa", params);
   args.value = params;
@@ -17,14 +21,16 @@ async function runMethod() {
   const requestLog = `⚓ Sending request to ${methodStore.method}`;
   logsStore.setLogs(requestLog);
 
-  const f = (await new RpcMethods()[methodStore.method as keyof RPCMethods](
+  const f = (await new RpcMethods(rpcStore.url!)[
+    methodStore.method as keyof RPCMethods
+  ](
     // @ts-ignore
     ...form.value
   )) as Record<string, any>;
 
   console.log("f", f);
 
-  let obj = {} as any;
+  const obj = {} as Record<string, any>;
   for (const [index, key] of Object.keys(f).entries()) {
     obj[key] = Object.values(f)[index];
   }
@@ -33,10 +39,6 @@ async function runMethod() {
   } else {
     logsStore.setLogs(`${JSON.stringify(obj, null, 2)}`);
   }
-  // logsStore.setLogs(`✅ Node response:
-  //  ${Object.keys(f)}:
-  //   ${Object.values(f)}`);
-  console.log(123, toRaw(logsStore.logs));
 }
 onBeforeUpdate(() => {
   if (methodStore.method) {
@@ -127,7 +129,7 @@ button {
   padding: 0.4rem;
   border-radius: 0.5rem;
   border: 0;
-  color:whitesmoke;
+  color: whitesmoke;
   transition: all 0.2s ease-in-out;
   font-family: "Roboto", sans-serif;
   width: 92%;

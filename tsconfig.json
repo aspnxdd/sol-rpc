@@ -15,8 +15,8 @@
     "allowJs": true,
     "skipLibCheck": true,
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@stores/*": ["src/stores/*"],
+      "@components": ["src/components/index.ts"],
+      "@stores": ["src/stores/index.ts"],
       "@lib/*": ["src/lib/*"]
     }
   },

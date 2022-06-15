@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import RpcMethods from "@components/RpcMethods.vue";
-import Wallet from "@components/Wallet.vue";
-import RpcBar from "@components/RpcBar.vue";
-import RpcMethodArgs from "@components/RpcMethodArgs.vue";
-import RpcLogs from "@components/RpcLogs.vue";
-import RpcTopBar from "@components/RpcTopBar.vue";
+import {
+  RpcBar,
+  RpcLogs,
+  RpcMethodArgs,
+  RpcMethods,
+  RpcTopBar,
+} from "@components";
 </script>
 
 <template>
@@ -12,9 +13,9 @@ import RpcTopBar from "@components/RpcTopBar.vue";
 
   <RpcBar />
   <div class="grid">
-      <RpcMethods />
-      <RpcMethodArgs />
-      <RpcLogs />
+    <RpcMethods />
+    <RpcMethodArgs />
+    <RpcLogs />
   </div>
 </template>
 
@@ -29,7 +30,7 @@ import RpcTopBar from "@components/RpcTopBar.vue";
   -moz-osx-font-smoothing: grayscale;
 }
 body {
-  margin:0;
+  margin: 0;
 }
 html {
   height: 100vh;
@@ -37,12 +38,10 @@ html {
 #app {
   display: flex;
   flex-direction: column;
-
 }
 .grid {
   display: flex;
   width: 100%;
-
 }
 
 .grid > div {

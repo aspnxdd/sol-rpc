@@ -1,17 +1,17 @@
-import { reactive } from "vue";
+import { defineStore } from "pinia";
 
-interface Logs {
-  logs: string[];
-  setLogs: (newLog: string) => void;
-  clearLogs: () => void;
-}
-
-export const logsStore: Logs = reactive({
-  logs: new Array<string>(),
-  setLogs(newLog: string) {
-    this.logs.push(newLog);
-  },
-  clearLogs() {
-    this.logs = [];
+const useLogsStore = defineStore("logsStore", {
+  state: () => ({
+    logs: [] as string[],
+  }),
+  actions: {
+    setLogs(newLog: string) {
+      this.logs.push(newLog);
+    },
+    clearLogs() {
+      this.logs = [];
+    },
   },
 });
+
+export default useLogsStore;

@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Connection } from "@solana/web3.js";
-import { rpcStore } from "@stores/RPC";
+import { useRpcStore } from "@stores";
+
 import { computed, ref } from "vue";
-const rpc = ref<string>(rpcStore.url);
+
+const rpcStore = useRpcStore();
+const rpc = ref<string | null>(rpcStore.url);
 const error = ref(false);
 async function isRpcEndpointValid() {
   try {
+    if (!rpc.value) return false;
     const connection = new Connection(rpc.value);
     await connection.getLatestBlockhash();
     return true;
@@ -20,7 +24,7 @@ const setRpcUrl = computed(() => {
   console.log("set");
   isRpcEndpointValid()
     .then((res) => {
-      if (res) {
+      if (res && rpc.value) {
         rpcStore.setUrl(rpc.value);
         error.value = false;
       } else {

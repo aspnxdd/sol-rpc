@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { ref, onBeforeUpdate } from "vue";
-import { rpcStore } from "@stores/RPC";
-import { RpcMethods, RPCMethods } from "@lib/rpcMethods";
-import { Connection } from "@solana/web3.js";
-import { on } from "events";
+import { useRpcStore } from "@stores";
 
-
+const rpcStore = useRpcStore();
 </script>
 
 <template>

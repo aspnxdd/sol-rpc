@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { methodStore, Methods } from "@stores/Method";
-import { rpcStore } from "@stores/RPC";
+import { Methods } from "../stores/Method";
+import { useRpcStore, useMethodsStore } from "@stores";
 
+const rpcStore = useRpcStore();
+const methodStore = useMethodsStore();
 const methods = ref<Methods[]>([
   "getBalance",
   "getAccountInfo",
