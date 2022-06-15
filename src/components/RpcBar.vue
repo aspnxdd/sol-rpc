@@ -28,10 +28,14 @@ const setRpcUrl = computed(() => {
         rpcStore.setUrl(rpc.value);
         error.value = false;
       } else {
+        rpcStore.setUrl(null);
+
         error.value = true;
       }
     })
     .catch(() => {
+      rpcStore.setUrl(null);
+
       error.value = true;
     });
 });
