@@ -5,7 +5,8 @@ const useRpcStore = defineStore("rpcStore", {
     url: null as null | string,
   }),
   actions: {
-    setUrl(newUrl: string|null) {
+    setUrl(newUrl: string) {
+      console.log("new url", newUrl);
       this.url = newUrl;
     },
   },
