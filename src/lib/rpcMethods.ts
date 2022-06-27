@@ -13,8 +13,15 @@ export interface RPCMethods {
   getAccountInfo: (
     address: string
   ) => Promise<web3.AccountInfo<Buffer> | null | RpcError>;
-  getGenesisHash(): Promise<Record<string, string>>;
+  getGenesisHash(): Promise<Record<"genesisHash", string> | RpcError>;
   getSupply(): Promise<web3.Supply | RpcError>;
+  getBlock(slot: string): Promise<web3.BlockResponse | null | RpcError>;
+  getBlockHeight(): Promise<Record<"blockHeight", number> | RpcError>;
+  getBlockProduction(): Promise<
+    web3.RpcResponseAndContext<web3.BlockProduction> | RpcError
+  >;
+  getBlockSignatures(slot: number): Promise<web3.BlockSignatures | RpcError>;
+  getClusterNodes(): Promise<web3.ContactInfo[] | RpcError>;
 }
 export class RpcMethods extends RPC implements RPCMethods {
   constructor(url: string) {
@@ -42,6 +49,8 @@ export class RpcMethods extends RPC implements RPCMethods {
       const accountInfo = await this.connection.getAccountInfo(
         new web3.PublicKey(address)
       );
+      if (!accountInfo) throw new Error("Account not found");
+
       return accountInfo;
     } catch (err) {
       console.log(err);
@@ -77,6 +86,67 @@ export class RpcMethods extends RPC implements RPCMethods {
     try {
       const supply = await this.connection.getSupply();
       return supply.value;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getBlock(
+    slot: string
+  ): Promise<web3.BlockResponse | null | RpcError> {
+    try {
+      const block = await this.connection.getBlock(parseInt(slot), {
+        commitment: "confirmed",
+      });
+      if (!block) throw new Error("Block not found");
+      return block;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getBlockHeight(): Promise<
+    Record<"blockHeight", number> | RpcError
+  > {
+    try {
+      const blockHeight = await this.connection.getBlockHeight();
+      return { blockHeight };
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getBlockProduction(): Promise<
+    web3.RpcResponseAndContext<web3.BlockProduction> | RpcError
+  > {
+    try {
+      const blockProduction = await this.connection.getBlockProduction();
+      return blockProduction;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getBlockSignatures(
+    slot: number
+  ): Promise<web3.BlockSignatures | RpcError> {
+    try {
+      const blockSignature = await this.connection.getBlockSignatures(slot);
+      return blockSignature;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getClusterNodes(): Promise<web3.ContactInfo[] | RpcError> {
+    try {
+      const clusterNodes = await this.connection.getClusterNodes();
+      return clusterNodes;
     } catch (err) {
       console.log(err);
       return { error: (err as Error).message };

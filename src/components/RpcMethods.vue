@@ -11,6 +11,11 @@ const methods = ref<Methods[]>([
   "getLatestBlockhash",
   "getGenesisHash",
   "getSupply",
+  "getBlock",
+  "getBlockHeight",
+  "getBlockProduction",
+  "getBlockSignatures",
+  "getClusterNodes",
 ]);
 </script>
 
