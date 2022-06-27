@@ -12,3 +12,12 @@ export function getParamNames(func: Function) {
 export function capitalize(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export function castToDesiredType<Expected, O>(
+  toBeDetermined: Expected | O
+): toBeDetermined is Expected {
+  if (toBeDetermined as Expected) {
+    return true;
+  }
+  return false;
+}

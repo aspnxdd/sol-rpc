@@ -63,15 +63,21 @@ describe("RpcBar", () => {
     expect(wrapper.find("span").text()).toBe("RPC url:");
   });
   test("Connected text", async () => {
-    const { wrapper, rpcStore } = factory({ stubActions: false });
+    const { wrapper, rpcStore } = factory({
+      stubActions: true,
+      createSpy: vi.fn,
+    });
     wrapper.findAll("input")[0].setValue(API);
     expect(wrapper.findAll("input")[0].element.value).toBe(API);
-    const button = wrapper.find("button");
-    await button.trigger("click");
-    
-    expect(rpcStore.url).toBe(API);
+    const button = wrapper.findAll("button")[0];
+    expect(button).toHaveBeenCalledTimes(0);
+    await button.trigger("click.left");
+    expect(button).toHaveBeenCalledTimes(1);
+    expect(wrapper.find("span").text()).toBe(`RPC url: ${API}`);
+    // rpcStore.setUrl(API);
+    // expect(rpcStore.setUrl).toHaveBeenCalledTimes(1);
 
-    // expect(wrapper.find("span").text()).toBe(`RPC url: ${API}`);
+    // expect(rpcStore.url).toBe(API);
   });
 });
 

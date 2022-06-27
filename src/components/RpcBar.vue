@@ -1,44 +1,48 @@
 <script setup lang="ts">
-import { Connection } from "@solana/web3.js";
 import { useRpcStore } from "@stores";
-
-import { computed, ref } from "vue";
+import { RpcMethods } from "@lib/rpcMethods";
+import { ref } from "vue";
+import { castToDesiredType } from "@lib/utils";
+import { RpcError, Blockhash } from "@lib/types";
 
 const rpcStore = useRpcStore();
 const rpc = ref<string | null>(rpcStore.url);
+const lastBlockhash = ref<number | null>(null);
 const error = ref(false);
+
 async function isRpcEndpointValid() {
   try {
     if (!rpc.value) return false;
-    const connection = new Connection(rpc.value);
-    await connection.getLatestBlockhash();
+    const connection = new RpcMethods(rpc.value);
+    console.log("connection", connection.connection.rpcEndpoint);
+
+    const blockhash = await connection.getLatestBlockhash();
+    if (castToDesiredType<Blockhash, RpcError>(blockhash)) {
+      lastBlockhash.value = blockhash.lastValidBlockHeight;
+    }
     return true;
   } catch (e) {
     console.error(e);
-    console.log("err");
     return false;
   }
 }
 
-const setRpcUrl = computed(() => {
-  console.log("set");
-  isRpcEndpointValid()
-    .then((res) => {
-      if (res && rpc.value) {
-        rpcStore.setUrl(rpc.value);
-        error.value = false;
-      } else {
-        rpcStore.setUrl(null);
-
-        error.value = true;
-      }
-    })
-    .catch(() => {
+const setRpcUrl = async () => {
+  try {
+    const res = await isRpcEndpointValid();
+    if (!res) {
       rpcStore.setUrl(null);
-
       error.value = true;
-    });
-});
+      return;
+    }
+    rpcStore.setUrl(rpc.value);
+    error.value = false;
+  } catch (err) {
+    rpcStore.setUrl(null);
+
+    error.value = true;
+  }
+};
 </script>
 
 <template>
@@ -51,7 +55,12 @@ const setRpcUrl = computed(() => {
       v-model="rpc"
       placeholder="https://api.devnet.solana.com/"
     />
-    <button @click="() => setRpcUrl">Set RPC node</button>
+    <div>
+      <button @click="setRpcUrl">Set RPC node</button>
+      <span v-if="lastBlockhash"
+        >&#10064; Last reported block: {{ lastBlockhash }}</span
+      >
+    </div>
   </div>
 </template>
 
@@ -64,6 +73,14 @@ const setRpcUrl = computed(() => {
   margin-left: 1rem;
   margin-top: 4rem;
 }
+.container > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 1rem;
+  gap: 2rem;
+}
 .container input {
   width: 100%;
   border-radius: 0.5rem;
@@ -71,7 +88,12 @@ const setRpcUrl = computed(() => {
   padding: 0.5rem;
   margin-bottom: 0.5rem;
 }
-span {
+.container > div > span {
+  margin-top: 0.5rem;
+  font-size: medium;
+  font-weight: bold;
+}
+.container > span {
   margin-bottom: 0.5rem;
   font-weight: bold;
 }

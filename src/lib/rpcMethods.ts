@@ -1,4 +1,5 @@
 import * as web3 from "@solana/web3.js";
+import { RpcError, Blockhash } from "@lib/types";
 
 abstract class RPC {
   connection: web3.Connection;
@@ -6,29 +7,21 @@ abstract class RPC {
     this.connection = new web3.Connection(url!);
   }
 }
-type Address = string;
 export interface RPCMethods {
-  getBalance: (address: string) => Promise<{ balance: number; error?: string }>;
-  getLatestBlockhash: (address: string) => Promise<
-    Readonly<{
-      blockhash: string;
-      lastValidBlockHeight: number;
-    }>
-  >;
+  getBalance: (address: string) => Promise<{ balance: number } | RpcError>;
+  getLatestBlockhash: (address: string) => Promise<Blockhash | RpcError>;
   getAccountInfo: (
-    address: Address
-  ) => Promise<web3.AccountInfo<Buffer> | null>;
+    address: string
+  ) => Promise<web3.AccountInfo<Buffer> | null | RpcError>;
   getGenesisHash(): Promise<Record<string, string>>;
-  getSupply(): Promise<web3.Supply>;
+  getSupply(): Promise<web3.Supply | RpcError>;
 }
 export class RpcMethods extends RPC implements RPCMethods {
   constructor(url: string) {
     super(url);
   }
 
-  async getBalance(
-    address: string
-  ): Promise<{ balance: number; error?: string }> {
+  async getBalance(address: string): Promise<{ balance: number } | RpcError> {
     try {
       console.log("getBalance", address);
       const balance = await this.connection.getBalance(
@@ -38,38 +31,55 @@ export class RpcMethods extends RPC implements RPCMethods {
       return { balance };
     } catch (err) {
       console.log(err);
-      return { balance: 0, error: (err as Error).message };
+      return { error: (err as Error).message };
     }
   }
 
   public async getAccountInfo(
-    address: Address
-  ): Promise<web3.AccountInfo<Buffer> | null> {
-    const accountInfo = await this.connection.getAccountInfo(
-      new web3.PublicKey(address)
-    );
-    return accountInfo;
+    address: string
+  ): Promise<web3.AccountInfo<Buffer> | null | RpcError> {
+    try {
+      const accountInfo = await this.connection.getAccountInfo(
+        new web3.PublicKey(address)
+      );
+      return accountInfo;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
   }
 
-  public async getLatestBlockhash(): Promise<
-    Readonly<{
-      blockhash: string;
-      lastValidBlockHeight: number;
-    }>
+  public async getLatestBlockhash(): Promise<Blockhash | RpcError> {
+    try {
+      const latestBlockhash = await this.connection.getLatestBlockhash();
+      return latestBlockhash;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getGenesisHash(): Promise<
+    Record<"genesisHash", string> | RpcError
   > {
-    const latestBlockhash = await this.connection.getLatestBlockhash();
-    return latestBlockhash;
+    try {
+      const genesisHash = await this.connection.getGenesisHash();
+      return {
+        genesisHash,
+      };
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
   }
 
-  public async getGenesisHash(): Promise<Record<string, string>> {
-    const genesisHash = await this.connection.getGenesisHash();
-    return {
-      genesisHash,
-    };
-  }
-
-  public async getSupply(): Promise<web3.Supply> {
-    const supply = await this.connection.getSupply();
-    return supply.value;
+  public async getSupply(): Promise<web3.Supply | RpcError> {
+    try {
+      const supply = await this.connection.getSupply();
+      return supply.value;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
   }
 }

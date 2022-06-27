@@ -34,6 +34,7 @@ span {
   height: 2rem;
   color: white;
   background-color: #801111;
+  font-weight: bold;
 }
 span.connected {
   background-color: #0f8000;
