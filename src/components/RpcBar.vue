@@ -17,10 +17,13 @@ async function isRpcEndpointValid() {
     console.log("connection", connection.connection.rpcEndpoint);
 
     const blockhash = await connection.getLatestBlockhash();
+    console.log("blockhash", blockhash);
     if (castToDesiredType<Blockhash, RpcError>(blockhash)) {
       lastBlockhash.value = blockhash.lastValidBlockHeight;
     }
-    return true;
+    if(lastBlockhash.value) {
+      return true;
+    }
   } catch (e) {
     console.error(e);
     return false;
