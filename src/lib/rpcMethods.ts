@@ -20,7 +20,7 @@ export interface RPCMethods {
   getBlockProduction(): Promise<
     web3.RpcResponseAndContext<web3.BlockProduction> | RpcError
   >;
-  getBlockSignatures(slot: number): Promise<web3.BlockSignatures | RpcError>;
+  getBlockSignatures(slot: string): Promise<web3.BlockSignatures | RpcError>;
   getClusterNodes(): Promise<web3.ContactInfo[] | RpcError>;
 }
 export class RpcMethods extends RPC implements RPCMethods {
@@ -132,10 +132,12 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getBlockSignatures(
-    slot: number
+    slot: string
   ): Promise<web3.BlockSignatures | RpcError> {
     try {
-      const blockSignature = await this.connection.getBlockSignatures(slot);
+      const blockSignature = await this.connection.getBlockSignatures(
+        parseInt(slot)
+      );
       return blockSignature;
     } catch (err) {
       console.log(err);

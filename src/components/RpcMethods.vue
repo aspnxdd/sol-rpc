@@ -24,8 +24,12 @@ const methods = ref<Methods[]>([
     <div>
       <h3>Methods:</h3>
       <div class="methods">
-        <span v-for="method in methods" v-if="rpcStore.url">
-          <p @click="() => methodStore.setMethod(method)">{{ method }}</p>
+        <span
+          v-for="method in methods"
+          v-if="rpcStore.url"
+          @click="() => methodStore.setMethod(method)"
+        >
+          <p>{{ method }}</p>
           <strong>></strong>
         </span>
         <h4 v-else>Enter a valid RPC url</h4>
@@ -75,11 +79,15 @@ span strong {
 span p {
   margin: 0;
   width: 100%;
+  height: 100%;
   text-align: left;
   cursor: default;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   font-weight: bold;
+}
+span:hover {
+  background-color: #e1ecf7;
 }
 </style>
