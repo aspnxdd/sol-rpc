@@ -30,7 +30,7 @@ const methods = ref<Methods[]>([
 </script>
 
 <template>
-  <div class="container">
+  <section class="container">
     <div>
       <h3>Methods:</h3>
       <div class="methods">
@@ -45,7 +45,7 @@ const methods = ref<Methods[]>([
         <h4 v-else>Enter a valid RPC url</h4>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -69,7 +69,7 @@ const methods = ref<Methods[]>([
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  height:73vh;
+  height: 73vh;
   overflow-y: scroll;
 }
 span {
