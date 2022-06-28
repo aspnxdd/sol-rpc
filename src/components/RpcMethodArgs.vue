@@ -3,14 +3,16 @@ import { ref, onBeforeUpdate } from "vue";
 import { RpcMethods, RPCMethods } from "@lib/rpcMethods";
 import { getParamNames, capitalize } from "@lib/utils";
 import { useRpcStore, useLogsStore, useMethodsStore } from "@stores";
+import { CommitmentWithoutDeprecated } from "@lib/types";
 
 const rpcStore = useRpcStore();
 const methodStore = useMethodsStore();
 const logsStore = useLogsStore();
 const args = ref<any[]>([]);
 const form = ref<any[]>([]);
+const commitment = ref<CommitmentWithoutDeprecated>("confirmed");
 function getMethods() {
-  const f = new RpcMethods(rpcStore.url!)[
+  const f = new RpcMethods(rpcStore.url!, commitment.value)[
     methodStore.method as keyof RPCMethods
   ];
   const params = getParamNames(f) as Parameters<typeof f>;
@@ -21,7 +23,7 @@ async function runMethod() {
   const requestLog = `⚓ Sending request to ${methodStore.method}`;
   logsStore.setLogs(requestLog);
 
-  const f = (await new RpcMethods(rpcStore.url!)[
+  const f = (await new RpcMethods(rpcStore.url!, commitment.value)[
     methodStore.method as keyof RPCMethods
   ](
     // @ts-ignore
@@ -48,7 +50,7 @@ onBeforeUpdate(() => {
 </script>
 
 <template>
-  <div class="container">
+  <section class="container">
     <div class="args" v-if="methodStore.method">
       <h3>METHOD: {{ methodStore.method }}</h3>
       <hr />
@@ -63,10 +65,24 @@ onBeforeUpdate(() => {
         />
         {{ capitalize(arg) }}
       </span>
+      <div>
+        <h4>Commitment</h4>
+        <div v-for="commitmentOpt in ['confirmed', 'finalized', 'processed']">
+          <input
+            @change="() => (commitment = commitmentOpt)"
+            type="radio"
+            :id="commitmentOpt"
+            :name="commitmentOpt"
+            :checked="commitment === commitmentOpt"
+          />
+          <label :for="commitmentOpt">{{ commitmentOpt }}</label
+          ><br />
+        </div>
+      </div>
       <button @click="runMethod">🚀 Send request to RPC node</button>
     </div>
     <div v-else></div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -84,6 +100,11 @@ onBeforeUpdate(() => {
 .args {
   width: 100%;
 }
+input {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+}
 hr {
   margin: 0;
   border: 0;
@@ -91,9 +112,8 @@ hr {
   width: 96%;
 }
 h4 {
-  margin: 0;
-  width: 14rem;
   text-align: left;
+  font-size: large;
 }
 span {
   display: flex;
