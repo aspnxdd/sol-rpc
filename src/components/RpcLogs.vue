@@ -7,10 +7,10 @@ const logsStore = useLogsStore();
 <template>
   <div class="container">
     <code>
-    <div class="sticky">
-      <h3>Logs</h3>
-      <button @click="logsStore.clearLogs">Clear logs</button>
-    </div>
+      <div class="sticky">
+        <h3>Logs</h3>
+        <button @click="logsStore.clearLogs">Clear logs</button>
+      </div>
       <span v-for="log in logsStore.logs" :key="log">
         <p v-if="log.includes('Error')" class="error">
           {{ log }}
@@ -33,9 +33,8 @@ const logsStore = useLogsStore();
   flex-direction: column;
   align-items: flex-start;
   gap: 0.25rem;
-  min-width: 39vw;
+  width: 39vw;
   height: 79vh;
-
 }
 hr {
   margin: 0;
@@ -52,7 +51,6 @@ p {
   text-align: left;
   padding: 0.2rem;
   font-family: Consolas,monaco,monospace; 
-
 }
 
 p.error {
@@ -69,10 +67,7 @@ p pre {
   white-space: pre-wrap;
   word-wrap: break-word;
   font-family: Consolas,monaco,monospace; 
-
 }
-
-
 code {
   background-color: rgb(27, 26, 26);
   border-radius: 4px;
@@ -81,9 +76,8 @@ code {
   height:100%;
   position: relative;
   overflow-x: hidden;
-
+  overflow-y: scroll;
 }
-
 
 code .sticky {
   position: sticky;

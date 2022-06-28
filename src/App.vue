@@ -31,6 +31,7 @@ import {
 }
 body {
   margin: 0;
+  cursor: default;
 }
 html {
   height: 100vh;

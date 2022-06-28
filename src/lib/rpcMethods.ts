@@ -22,6 +22,36 @@ export interface RPCMethods {
   >;
   getBlockSignatures(slot: string): Promise<web3.BlockSignatures | RpcError>;
   getClusterNodes(): Promise<web3.ContactInfo[] | RpcError>;
+  getEpochInfo(): Promise<web3.EpochInfo | RpcError>;
+  getEpochSchedule(): Promise<web3.EpochSchedule | RpcError>;
+  getFeeForMessage(
+    message: string
+  ): Promise<web3.RpcResponseAndContext<number> | RpcError>;
+  getFirstAvailableBlock(): Promise<
+    Record<"firstAvailableBlock", number> | RpcError
+  >;
+  getInflationGovernor(): Promise<web3.InflationGovernor | RpcError>;
+  getInflationReward(
+    addresses: string,
+    epoch?: number | undefined
+  ): Promise<(web3.InflationReward | null)[] | RpcError>;
+  getSignatureStatus(
+    signature: string
+  ): Promise<
+    web3.RpcResponseAndContext<web3.SignatureStatus | null> | RpcError
+  >;
+  getSignatureStatuses(
+    signatures: string[]
+  ): Promise<
+    web3.RpcResponseAndContext<(web3.SignatureStatus | null)[]> | RpcError
+  >;
+  getSignaturesForAddress(
+    address: string
+  ): Promise<web3.ConfirmedSignatureInfo[] | RpcError>;
+
+  getMinimumBalanceForRentExemption(
+    datalength: number
+  ): Promise<Record<"rent", number> | RpcError>;
 }
 export class RpcMethods extends RPC implements RPCMethods {
   constructor(url: string) {
@@ -30,11 +60,9 @@ export class RpcMethods extends RPC implements RPCMethods {
 
   async getBalance(address: string): Promise<{ balance: number } | RpcError> {
     try {
-      console.log("getBalance", address);
       const balance = await this.connection.getBalance(
         new web3.PublicKey(address)
       );
-      console.log(1, balance);
       return { balance };
     } catch (err) {
       console.log(err);
@@ -149,6 +177,140 @@ export class RpcMethods extends RPC implements RPCMethods {
     try {
       const clusterNodes = await this.connection.getClusterNodes();
       return clusterNodes;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getEpochInfo(): Promise<web3.EpochInfo | RpcError> {
+    try {
+      const epochInfo = await this.connection.getEpochInfo();
+      return epochInfo;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getEpochSchedule(): Promise<web3.EpochSchedule | RpcError> {
+    try {
+      const epochSchedule = await this.connection.getEpochSchedule();
+      return epochSchedule;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getFeeForMessage(
+    message: string
+  ): Promise<web3.RpcResponseAndContext<number> | RpcError> {
+    try {
+      const _message = web3.Message.from(new TextEncoder().encode(message));
+      const feeForMessage = await this.connection.getFeeForMessage(_message);
+      return feeForMessage;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getFirstAvailableBlock(): Promise<
+    Record<"firstAvailableBlock", number> | RpcError
+  > {
+    try {
+      const firstAvailableBlock =
+        await this.connection.getFirstAvailableBlock();
+      return { firstAvailableBlock };
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getInflationGovernor(): Promise<
+    web3.InflationGovernor | RpcError
+  > {
+    try {
+      const inflationGovernor = await this.connection.getInflationGovernor();
+      return inflationGovernor;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getInflationReward(
+    addresses: string,
+    epoch?: number | undefined
+  ): Promise<(web3.InflationReward | null)[] | RpcError> {
+    try {
+      const _addresses = addresses
+        .split(",")
+        .map((address) => new web3.PublicKey(address));
+
+      const inflationReward = await this.connection.getInflationReward(
+        _addresses,
+        epoch
+      );
+      return inflationReward;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getSignatureStatus(
+    signature: string
+  ): Promise<
+    web3.RpcResponseAndContext<web3.SignatureStatus | null> | RpcError
+  > {
+    try {
+      const status = await this.connection.getSignatureStatus(signature);
+      return status;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getSignatureStatuses(
+    signatures: string[]
+  ): Promise<
+    web3.RpcResponseAndContext<(web3.SignatureStatus | null)[]> | RpcError
+  > {
+    try {
+      const statuses = await this.connection.getSignatureStatuses(signatures);
+      return statuses;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getSignaturesForAddress(
+    address: string
+  ): Promise<web3.ConfirmedSignatureInfo[] | RpcError> {
+    try {
+      const signature = await this.connection.getSignaturesForAddress(
+        new web3.PublicKey(address)
+      );
+      return signature;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getMinimumBalanceForRentExemption(
+    datalength: number
+  ): Promise<Record<"rent", number> | RpcError> {
+    try {
+      const rent = await this.connection.getMinimumBalanceForRentExemption(
+        Number(datalength)
+      );
+      return { rent };
     } catch (err) {
       console.log(err);
       return { error: (err as Error).message };

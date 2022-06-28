@@ -16,6 +16,16 @@ const methods = ref<Methods[]>([
   "getBlockProduction",
   "getBlockSignatures",
   "getClusterNodes",
+  "getEpochInfo",
+  "getEpochSchedule",
+  "getFeeForMessage",
+  "getFirstAvailableBlock",
+  "getInflationGovernor",
+  "getInflationReward",
+  "getSignatureStatus",
+  "getSignatureStatuses",
+  "getSignaturesForAddress",
+  "getMinimumBalanceForRentExemption",
 ]);
 </script>
 
@@ -45,7 +55,6 @@ const methods = ref<Methods[]>([
   flex-direction: column;
   align-items: flex-start;
   gap: 0.25rem;
-  height: 100%;
   width: 30vw;
   height: 79vh;
 }
@@ -60,6 +69,8 @@ const methods = ref<Methods[]>([
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  height:73vh;
+  overflow-y: scroll;
 }
 span {
   display: flex;
