@@ -42,6 +42,7 @@ const queryFn = debounce((query: string) => {
 }, 300);
 
 watch(searchQuery, queryFn);
+const searchIcon = ref("&#9906;");
 </script>
 
 <template>
@@ -50,7 +51,7 @@ watch(searchQuery, queryFn);
       <span class="methods-container">
         <h2>Methods</h2>
         <span class="search-bar">
-          <p>&#9906;</p>
+          <p v-html="searchIcon"></p>
           <input type="search" v-model="searchQuery" />
         </span>
       </span>
