@@ -5,6 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Footer: typeof import('./src/components/Footer.vue')['default']
     RpcBar: typeof import('./src/components/RpcBar.vue')['default']
     RpcLogs: typeof import('./src/components/RpcLogs.vue')['default']
     RpcMethodArgs: typeof import('./src/components/RpcMethodArgs.vue')['default']

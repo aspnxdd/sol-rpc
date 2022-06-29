@@ -5,6 +5,7 @@ import {
   RpcMethodArgs,
   RpcMethods,
   RpcTopBar,
+  Footer,
 } from "@components";
 </script>
 
@@ -17,6 +18,7 @@ import {
     <RpcMethodArgs />
     <RpcLogs />
   </div>
+  <Footer />
 </template>
 
 <style>
