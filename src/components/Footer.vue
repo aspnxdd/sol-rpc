@@ -25,6 +25,7 @@
   font-weight: 700;
   font-size: 1.1rem;
   color: #fff;
+  margin-top: 1rem;
   background-color: rgb(73, 73, 83);
 }
 .twitter {
