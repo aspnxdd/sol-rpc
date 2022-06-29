@@ -4,10 +4,12 @@ import { RpcMethods } from "@lib/rpcMethods";
 import { ref } from "vue";
 import { castToDesiredType } from "@lib/utils";
 import { RpcError, Blockhash } from "@lib/types";
+import { Version } from "@solana/web3.js";
 
 const rpcStore = useRpcStore();
 const rpc = ref<string | null>(rpcStore.url);
 const lastBlockhash = ref<number | null>(null);
+const version = ref<null | string>(null);
 const error = ref(false);
 
 async function isRpcEndpointValid() {
@@ -17,11 +19,12 @@ async function isRpcEndpointValid() {
     console.log("connection", connection.connection.rpcEndpoint);
 
     const blockhash = await connection.getLatestBlockhash();
+    version.value = ((await connection.getVersion()) as Version)["solana-core"];
     console.log("blockhash", blockhash);
     if (castToDesiredType<Blockhash, RpcError>(blockhash)) {
       lastBlockhash.value = blockhash.lastValidBlockHeight;
     }
-    if(lastBlockhash.value) {
+    if (lastBlockhash.value) {
       return true;
     }
   } catch (e) {
@@ -63,6 +66,7 @@ const setRpcUrl = async () => {
       <span v-if="lastBlockhash"
         >&#10064; Last reported block: {{ lastBlockhash }}</span
       >
+      <span v-if="version">&#10095; Solana-core version: {{ version }}</span>
     </div>
   </div>
 </template>
@@ -76,6 +80,7 @@ const setRpcUrl = async () => {
   margin-left: 1rem;
   margin-top: 4rem;
 }
+
 .container > div {
   display: flex;
   flex-direction: row;

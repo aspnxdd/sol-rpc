@@ -24,7 +24,7 @@ import {
 *,
 *::after,
 *::before {
-  font-family: "Roboto", sans-serif;
+  font-family: "Inter", sans-serif;
   box-sizing: content-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -32,6 +32,7 @@ import {
 body {
   margin: 0;
   cursor: default;
+  background-color: #f5f5f5dc;
 }
 html {
   height: 100vh;

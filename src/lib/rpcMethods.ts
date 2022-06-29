@@ -3,8 +3,8 @@ import { RpcError, Blockhash, CommitmentWithoutDeprecated } from "@lib/types";
 
 abstract class RPC {
   connection: web3.Connection;
-  commitment: CommitmentWithoutDeprecated;
-  constructor(url: string, commitmentOpt: CommitmentWithoutDeprecated) {
+  commitment?: CommitmentWithoutDeprecated;
+  constructor(url: string, commitmentOpt?: CommitmentWithoutDeprecated) {
     this.connection = new web3.Connection(url!);
     this.commitment = commitmentOpt;
   }
@@ -54,9 +54,10 @@ export interface RPCMethods {
   getMinimumBalanceForRentExemption(
     datalength: number
   ): Promise<Record<"rent", number> | RpcError>;
+  getVersion(): Promise<web3.Version | RpcError>;
 }
 export class RpcMethods extends RPC implements RPCMethods {
-  constructor(url: string, commitmentOpt: CommitmentWithoutDeprecated) {
+  constructor(url: string, commitmentOpt?: CommitmentWithoutDeprecated) {
     super(url, commitmentOpt);
   }
 
@@ -332,6 +333,16 @@ export class RpcMethods extends RPC implements RPCMethods {
         this.commitment as web3.Commitment
       );
       return { rent };
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getVersion(): Promise<web3.Version | RpcError> {
+    try {
+      const version = await this.connection.getVersion();
+      return version;
     } catch (err) {
       console.log(err);
       return { error: (err as Error).message };

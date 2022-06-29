@@ -6,6 +6,7 @@ import { debounce } from "@lib/utils";
 const rpcStore = useRpcStore();
 const methodStore = useMethodsStore();
 const methods = ref<Methods[]>([
+  "getVersion",
   "getBalance",
   "getAccountInfo",
   "getLatestBlockhash",
@@ -50,7 +51,7 @@ const searchIcon = ref("&#9906;");
     <div>
       <span class="methods-container">
         <h2>Methods</h2>
-        <span class="search-bar">
+        <span class="search-bar" v-if="rpcStore.url">
           <p v-html="searchIcon"></p>
           <input type="search" v-model="searchQuery" />
         </span>
@@ -132,7 +133,7 @@ const searchIcon = ref("&#9906;");
   padding: 0.5rem;
   border-radius: 0.5rem;
   margin-left: 1rem;
-  border: #e1ecf7 1.5px solid;
+  border: #c3cbd4 1.5px solid;
 }
 
 .methods span strong {
