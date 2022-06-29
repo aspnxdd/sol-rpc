@@ -98,6 +98,11 @@ code .sticky button {
   padding: 0.4rem;
   font-size: 1rem;
   font-weight: bold;
+  transition: all 0.1s ease-in-out;
+}
+code .sticky button:hover {
+  background-color: rgb(148, 148, 148);
+
 }
 h3{
   height:100%;

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Methods } from "../stores/Method";
 import { useRpcStore, useMethodsStore } from "@stores";
-
+import { debounce } from "@lib/utils";
 const rpcStore = useRpcStore();
 const methodStore = useMethodsStore();
 const methods = ref<Methods[]>([
@@ -27,15 +27,36 @@ const methods = ref<Methods[]>([
   "getSignaturesForAddress",
   "getMinimumBalanceForRentExemption",
 ]);
+const methodsFiltered = ref<Methods[]>(methods.value);
+const searchQuery = ref<string>("");
+
+const queryFn = debounce((query: string) => {
+  if (query == "") {
+    methodsFiltered.value = methods.value;
+    return;
+  }
+  methodsFiltered.value = methods.value.filter((method) =>
+    method.toLowerCase().includes(query.toLowerCase())
+  );
+  return;
+}, 300);
+
+watch(searchQuery, queryFn);
 </script>
 
 <template>
   <section class="container">
     <div>
-      <h3>Methods:</h3>
+      <span class="methods-container">
+        <h2>Methods</h2>
+        <span class="search-bar">
+          <p>&#9906;</p>
+          <input type="search" v-model="searchQuery" />
+        </span>
+      </span>
       <div class="methods">
         <span
-          v-for="method in methods"
+          v-for="method in methodsFiltered"
           v-if="rpcStore.url"
           @click="() => methodStore.setMethod(method)"
         >
@@ -58,6 +79,37 @@ const methods = ref<Methods[]>([
   width: 30vw;
   height: 79vh;
 }
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 3rem;
+  border: 1px solid #9ca3af;
+  border-radius: 0.5rem;
+  background-color: #fefefe;
+  padding-left: 1rem;
+}
+.search-bar input {
+  font-size: 1.05rem;
+}
+.search-bar :not(input) {
+  transform: rotateZ(-45deg) scale(1.9);
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+.methods-container {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.methods-container input {
+  width: 100%;
+  height: 1rem;
+  padding: 0.6rem;
+  border: 0;
+  outline: white;
+}
 .container > div {
   display: flex;
   flex-direction: column;
@@ -72,7 +124,7 @@ const methods = ref<Methods[]>([
   height: 73vh;
   overflow-y: scroll;
 }
-span {
+.methods span {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -82,12 +134,12 @@ span {
   border: #e1ecf7 1.5px solid;
 }
 
-span strong {
+.methods span strong {
   padding-right: 1rem;
   transform: scaleY(1.5) scaleX(0.9);
   color: rgb(5, 52, 122);
 }
-span p {
+.methods span p {
   margin: 0;
   width: 100%;
   height: 100%;
@@ -98,7 +150,7 @@ span p {
   overflow: hidden;
   font-weight: bold;
 }
-span:hover {
+.methods span:hover {
   background-color: #e1ecf7;
 }
 </style>
