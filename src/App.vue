@@ -37,6 +37,8 @@ body {
 }
 html {
   height: 100vh;
+  scroll-behavior: smooth;
+
 }
 #app {
   display: flex;

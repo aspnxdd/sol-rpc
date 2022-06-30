@@ -17,7 +17,6 @@ async function isRpcEndpointValid() {
   try {
     if (!rpc.value) return false;
     const connection = new RpcMethods(rpc.value);
-    console.log("connection", connection.connection.rpcEndpoint);
 
     const blockhash = await connection.getLatestBlockhash();
     version.value = ((await connection.getVersion()) as Version)["solana-core"];
@@ -87,7 +86,12 @@ const epochETA = computed(() => {
         <span>&#x2680; Epoch: </span>
         <div class="progress">
           <p>{{ epochPercentage }}%</p>
-          <progress id="file" value="32" max="100">32%</progress>
+          <!-- <progress id="file" :value="epochPercentage" max="100"></progress> -->
+          <div
+            role="progressbar"
+            class="progress-bar"
+            :style="{ '--width': `${epochPercentage}%` }"
+          ></div>
         </div>
         <div class="eta">
           ETA
@@ -99,6 +103,22 @@ const epochETA = computed(() => {
 </template>
 
 <style scoped>
+.progress-bar {
+  background-color: #adb9bb;
+  width: 4rem;
+  border-radius: 6px;
+  position: relative;
+}
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--width);
+  height: 100%;
+  border-radius: 5px;
+  background-color: rgb(52, 107, 209);
+}
 .container {
   position: relative;
   display: grid;
@@ -106,6 +126,7 @@ const epochETA = computed(() => {
   width: 90%;
   margin-left: 1rem;
   margin-top: 4rem;
+  height: 10rem;
 }
 
 .container .input-bar {
@@ -121,7 +142,6 @@ const epochETA = computed(() => {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 1rem;
   gap: 2rem;
 }
 .container .stats article {
@@ -160,19 +180,20 @@ const epochETA = computed(() => {
   display: flex;
   width: 100%;
   flex-direction: row;
-  gap:0.5rem;
+  gap: 0.5rem;
   font-size: medium;
   font-weight: 400;
 }
 .container .stats .epoch .eta p {
   margin: 0;
 }
-.container .stats article progress {
+.container .stats article div {
   --padding: 0.5rem;
   width: 100%;
   padding-top: var(--padding);
   padding-bottom: var(--padding);
 }
+
 .container input {
   width: min(20rem, 60%);
 

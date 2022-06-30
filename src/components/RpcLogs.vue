@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {  useLogsStore } from "@stores";
 const logsStore = useLogsStore();
-
 </script>
 
 <template>

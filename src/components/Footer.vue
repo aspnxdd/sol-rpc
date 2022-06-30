@@ -1,4 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+function scrollToTop(){
+  window.scrollTo(0, 0);
+}
+
+</script>
 
 <template>
   <footer class="container">
@@ -11,10 +17,12 @@
       <img src="/gh.png" width="24" />
       <p>aspnxdd</p>
     </a>
+    <button @click="scrollToTop">&#x27A4;</button>
   </footer>
 </template>
 
 <style scoped>
+
 .container {
   position: relative;
   display: flex;
@@ -45,5 +53,24 @@
 }
 img {
   filter: grayscale(100%) brightness(1000%) contrast(0%);
+}
+.container button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin:5rem;
+  background-color: rgb(155, 180, 226);
+  border: 0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  transform: rotateZ(-90deg);
+}
+.container button:hover {
+  background-color: rgb(115, 137, 177);
+
 }
 </style>
