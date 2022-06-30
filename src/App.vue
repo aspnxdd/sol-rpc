@@ -11,7 +11,6 @@ import {
 
 <template>
   <RpcTopBar />
-
   <RpcBar />
   <div class="grid">
     <RpcMethods />
@@ -27,7 +26,7 @@ import {
 *::after,
 *::before {
   font-family: "Inter", sans-serif;
-  box-sizing: content-box;
+  box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -43,6 +42,7 @@ html {
   display: flex;
   flex-direction: column;
 }
+
 .grid {
   display: flex;
   width: 100%;

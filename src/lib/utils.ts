@@ -35,3 +35,10 @@ export function debounce<T extends unknown[], U>(
   };
 }
 
+export function parseTime(numberOfHours: number) {
+  const days = Math.floor(numberOfHours / 24);
+  const reminder = numberOfHours % 24;
+  const hours = Math.floor(reminder);
+  const minutes = Math.floor(60 * (reminder - hours));
+  return `${days}d ${hours}h ${minutes}m`;
+}

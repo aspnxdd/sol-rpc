@@ -20,8 +20,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 10rem;
-  padding: 4rem;
+  padding: 3rem;
   font-weight: 700;
   font-size: 1.1rem;
   color: #fff;
