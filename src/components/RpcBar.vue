@@ -75,15 +75,15 @@ const epochETA = computed(() => {
     </div>
     <div class="stats">
       <article v-if="lastBlockhash">
-        <span>&#10064; Last reported block: </span>
+        <span>🟦 Last reported block: </span>
         <p>{{ lastBlockhash }}</p>
       </article>
       <article v-if="version">
-        <span>&#10095; Solana-core version: </span>
+        <span>🔳 Solana-core version: </span>
         <p>{{ version }}</p>
       </article>
       <article v-if="epochPercentage" class="epoch">
-        <span>&#x2680; Epoch: </span>
+        <span>🌐 Epoch: </span>
         <div class="progress">
           <p>{{ epochPercentage }}%</p>
           <!-- <progress id="file" :value="epochPercentage" max="100"></progress> -->
