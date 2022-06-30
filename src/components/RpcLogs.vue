@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import {  useLogsStore } from "@stores";
 const logsStore = useLogsStore();
+
+function downloadLogs() {
+  const blob = new Blob([logsStore.logs.toString()], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "logs.txt";
+  link.click();
+  URL.revokeObjectURL(url);
+}
 </script>
 
 <template>
@@ -8,7 +18,7 @@ const logsStore = useLogsStore();
     <code>
       <div class="sticky">
         <h3>Logs</h3>
-        <!-- <button @click="logsStore.clearLogs">🔽 Download logs</button> -->
+        <button @click="downloadLogs">🔽 Download logs</button>
         <button @click="logsStore.clearLogs">🧹 Clear logs</button>
       </div>
       <span v-for="log in logsStore.logs" :key="log">
