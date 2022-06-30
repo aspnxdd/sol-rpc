@@ -3,7 +3,6 @@
 <template>
   <footer class="container">
     <h2>Made by arnau.unwrap()</h2>
-
     <a class="twitter" href="https://twitter.com/ESArnau">
       <img src="/tw.png" width="24" />
       <p>@ESArnau</p>

@@ -21,7 +21,6 @@ async function isRpcEndpointValid() {
 
     const blockhash = await connection.getLatestBlockhash();
     version.value = ((await connection.getVersion()) as Version)["solana-core"];
-    console.log("blockhash", blockhash);
     if (castToDesiredType<Blockhash, RpcError>(blockhash)) {
       lastBlockhash.value = blockhash.lastValidBlockHeight;
     }
@@ -53,7 +52,6 @@ const setRpcUrl = async () => {
     error.value = false;
   } catch (err) {
     rpcStore.setUrl(null);
-
     error.value = true;
   }
 };
@@ -65,7 +63,7 @@ const epochETA = computed(() => {
 </script>
 
 <template>
-  <div class="container">
+  <section class="container">
     <div class="input-bar">
       <span v-if="error"> Invalid RPC endpoint</span>
       <span v-else> RPC url</span>
@@ -97,7 +95,7 @@ const epochETA = computed(() => {
         </div>
       </article>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>

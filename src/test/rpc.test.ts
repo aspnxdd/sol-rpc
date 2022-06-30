@@ -27,6 +27,6 @@ describe("RPC methods", () => {
     const keypair = new web3.Keypair();
     const connection = new RpcMethods(API);
     const supply = await connection.getBalance(keypair.publicKey.toBase58());
-    expect(supply.balance).toBe(0);
+    expect((supply as { balance: number }).balance).toBe(0);
   });
 });

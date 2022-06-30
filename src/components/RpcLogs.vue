@@ -5,7 +5,7 @@ const logsStore = useLogsStore();
 </script>
 
 <template>
-  <div class="container">
+  <section class="container">
     <code>
       <div class="sticky">
         <h3>Logs</h3>
@@ -23,7 +23,7 @@ const logsStore = useLogsStore();
         </p>
       </span>
     </code>
-  </div>
+  </section>
 </template>
 
 <style scoped>
