@@ -17,7 +17,7 @@ function scrollToTop(){
       <img src="/gh.png" width="24" />
       <p>aspnxdd</p>
     </a>
-    <button @click="scrollToTop">&#x27A4;</button>
+    <button @click="scrollToTop">🔼</button>
   </footer>
 </template>
 
@@ -59,18 +59,19 @@ img {
   bottom: 0;
   right: 0;
   margin:5rem;
-  background-color: rgb(155, 180, 226);
+  background-color: transparent;
   border: 0;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
+  padding: 0rem;
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 3rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  transform: rotateZ(-90deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .container button:hover {
-  background-color: rgb(115, 137, 177);
+  filter: hue-rotate(40deg);
 
 }
 </style>

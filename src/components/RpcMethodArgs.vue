@@ -63,7 +63,7 @@ onBeforeUpdate(() => {
           @change="(e) => (form[index] = (e.target as HTMLInputElement)?.value)"
           :key="index"
         />
-        {{ capitalize(arg) }}
+        <i>{{ capitalize(arg) }}</i>
       </span>
       <div>
         <h4>Commitment</h4>
@@ -153,6 +153,7 @@ button {
   transition: all 0.2s ease-in-out;
   font-family: "Roboto", sans-serif;
   width: 92%;
+  font-weight: 700;
 }
 button:hover {
   background-color: rgb(155, 180, 226);

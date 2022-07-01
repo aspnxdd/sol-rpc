@@ -10,7 +10,7 @@ const rpcStore = useRpcStore();
 const rpc = ref<string | null>(rpcStore.url);
 const lastBlockhash = ref<number | null>(null);
 const version = ref<null | string>(null);
-const error = ref(false);
+const isError = ref(false);
 const epochPercentage = ref(0);
 
 async function isRpcEndpointValid() {
@@ -44,14 +44,14 @@ const setRpcUrl = async () => {
     const res = await isRpcEndpointValid();
     if (!res) {
       rpcStore.setUrl(null);
-      error.value = true;
+      isError.value = true;
       return;
     }
     rpcStore.setUrl(rpc.value);
-    error.value = false;
+    isError.value = false;
   } catch (err) {
     rpcStore.setUrl(null);
-    error.value = true;
+    isError.value = true;
   }
 };
 
@@ -64,45 +64,57 @@ const epochETA = computed(() => {
 <template>
   <section class="container">
     <div class="input-bar">
-      <span v-if="error"> Invalid RPC endpoint</span>
+      <span v-if="isError"> Invalid RPC endpoint</span>
       <span v-else> RPC url</span>
       <input
         type="text"
         v-model="rpc"
         placeholder="https://api.devnet.solana.com/"
       />
-      <button @click="setRpcUrl">Set RPC node</button>
+      <button @click="setRpcUrl">⚡ Set RPC node</button>
     </div>
-    <div class="stats">
-      <article v-if="lastBlockhash">
-        <span>🟦 Last reported block: </span>
-        <p>{{ lastBlockhash }}</p>
-      </article>
-      <article v-if="version">
-        <span>🔳 Solana-core version: </span>
-        <p>{{ version }}</p>
-      </article>
-      <article v-if="epochPercentage" class="epoch">
-        <span>🌐 Epoch: </span>
-        <div class="progress">
-          <p>{{ epochPercentage }}%</p>
-          <!-- <progress id="file" :value="epochPercentage" max="100"></progress> -->
-          <div
-            role="progressbar"
-            class="progress-bar"
-            :style="{ '--width': `${epochPercentage}%` }"
-          ></div>
-        </div>
-        <div class="eta">
-          ETA
-          <p>~{{ epochETA }}</p>
-        </div>
-      </article>
-    </div>
+    <Transition>
+      <div class="stats" v-if="lastBlockhash && version && epochPercentage">
+        <article>
+          <span>🟦 Last reported block: </span>
+          <p>{{ lastBlockhash }}</p>
+        </article>
+        <article>
+          <span>🟩 Solana-core version: </span>
+          <p>{{ version }}</p>
+        </article>
+        <article class="epoch">
+          <span>🌐 Epoch: </span>
+          <div class="progress">
+            <p>{{ epochPercentage }}%</p>
+            <!-- <progress id="file" :value="epochPercentage" max="100"></progress> -->
+            <div
+              role="progressbar"
+              class="progress-bar"
+              :style="{ '--width': `${epochPercentage}%` }"
+            ></div>
+          </div>
+          <div class="eta">
+            ETA
+            <p>~{{ epochETA }}</p>
+          </div>
+        </article>
+      </div>
+    </Transition>
   </section>
 </template>
 
 <style scoped>
+/* we will explain what these classes do next! */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 .progress-bar {
   background-color: #adb9bb;
   width: 4rem;
@@ -216,14 +228,15 @@ button {
   background-color: cornflowerblue;
   margin-top: 0.5rem;
   padding: 0.4rem;
-  padding-left: 1rem;
+  padding-left: 0rem;
   padding-right: 1rem;
   border-radius: 0.5rem;
   border: 0;
   color: whitesmoke;
-  width: min(8rem, 60%);
+  width: min(10rem, 60%);
   transition: all 0.2s ease-in-out;
   font-family: "Roboto", sans-serif;
+  font-size: 1.05rem;
 }
 button:hover {
   background-color: rgb(155, 180, 226);

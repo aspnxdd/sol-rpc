@@ -5,13 +5,25 @@ const rpcStore = useRpcStore();
 </script>
 
 <template>
-  <span class="connected" v-if="rpcStore.url">
-    RPC url: {{ rpcStore.url }}</span
-  >
-  <span v-else> Not connected </span>
+  <Transition>
+    <span class="connected" v-if="rpcStore.url">
+      ⚪ RPC url: {{ rpcStore.url }}</span
+    >
+    <span v-else> ⛔ Not connected </span>
+  </Transition>
 </template>
 
 <style scoped>
+/* we will explain what these classes do next! */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 hr {
   margin: 0;
   border: 0;
