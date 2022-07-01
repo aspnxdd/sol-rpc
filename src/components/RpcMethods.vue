@@ -41,7 +41,12 @@ const queryFn = debounce((query: string) => {
   );
   return;
 }, 300);
-
+function setMethod(method: Methods) {
+  methodStore.setMethod(method);
+}
+function clearSearchbar() {
+  searchQuery.value = "";
+}
 watch(searchQuery, queryFn);
 const searchIcon = ref("&#9906;");
 </script>
@@ -54,13 +59,14 @@ const searchIcon = ref("&#9906;");
         <span class="search-bar" v-if="rpcStore.url">
           <p v-html="searchIcon"></p>
           <input type="search" v-model="searchQuery" />
+          <button @click="clearSearchbar">&#x2715;</button>
         </span>
       </span>
       <div class="methods">
         <span
           v-for="method in methodsFiltered"
           v-if="rpcStore.url"
-          @click="() => methodStore.setMethod(method)"
+          @click="() => setMethod(method)"
         >
           <p>{{ method }}</p>
           <strong>></strong>
@@ -94,12 +100,30 @@ const searchIcon = ref("&#9906;");
 }
 .search-bar input {
   font-size: 1.05rem;
+  margin-right: -1.3rem;
+  width: 100%;
 }
-.search-bar :not(input) {
+
+.search-bar :not(input, button) {
   transform: rotateZ(-45deg) scale(1.9);
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
+.search-bar button {
+  background-color: #fefefe;
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: bolder;
+  transition: transform 0.2s ease-in-out;
+  margin-right: 0.5rem;
+}
+.search-bar button:hover {
+
+  transform: rotateZ(-90deg) scale(1.1);
+  }
+
 .methods-container {
   display: flex;
   gap: 2rem;
@@ -133,7 +157,8 @@ const searchIcon = ref("&#9906;");
   padding: 0.5rem;
   border-radius: 0.5rem;
   margin-left: 1rem;
-  border: #c3cbd4 1.5px solid;
+  border: #c3cbd4 2.3px solid;
+  background-color: #f9f9f9;
 }
 
 .methods span strong {

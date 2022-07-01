@@ -11,7 +11,7 @@ export type Methods = keyof RpcMethods &
     method: null as null | string,
   }),
   actions: {
-    setMethod(selectedMethod: Methods) {
+    setMethod(selectedMethod: Methods|null) {
       this.method = selectedMethod;
     },
   },
