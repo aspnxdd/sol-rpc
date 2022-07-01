@@ -95,13 +95,16 @@ const searchIcon = ref("&#9906;");
   height: 3rem;
   border: 1px solid #9ca3af;
   border-radius: 0.5rem;
-  background-color: #fefefe;
+  background-color: var(--background-color-input);
+
   padding-left: 1rem;
 }
 .search-bar input {
   font-size: 1.05rem;
   margin-right: -1.3rem;
   width: 100%;
+  background-color: var(--background-color-input);
+  color: var(--text-color);
 }
 
 .search-bar :not(input, button) {
@@ -110,7 +113,7 @@ const searchIcon = ref("&#9906;");
   margin-right: 0.5rem;
 }
 .search-bar button {
-  background-color: #fefefe;
+  background-color: transparent;
   border: 0;
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -118,11 +121,11 @@ const searchIcon = ref("&#9906;");
   font-weight: bolder;
   transition: transform 0.2s ease-in-out;
   margin-right: 0.5rem;
+  color: var(--text-color);
 }
 .search-bar button:hover {
-
   transform: rotateZ(-90deg) scale(1.1);
-  }
+}
 
 .methods-container {
   display: flex;
@@ -158,13 +161,16 @@ const searchIcon = ref("&#9906;");
   border-radius: 0.5rem;
   margin-left: 1rem;
   border: #c3cbd4 2.3px solid;
-  background-color: #f9f9f9;
+  background-color: var(--background-color-input);
+  color: var(--text-color);
 }
 
 .methods span strong {
   padding-right: 1rem;
   transform: scaleY(1.5) scaleX(0.9);
   color: rgb(5, 52, 122);
+  color: var(--text-color);
+
 }
 .methods span p {
   margin: 0;
@@ -178,6 +184,6 @@ const searchIcon = ref("&#9906;");
   font-weight: bold;
 }
 .methods span:hover {
-  background-color: #e1ecf7;
+  background-color: var(--background-color-input-hover);
 }
 </style>

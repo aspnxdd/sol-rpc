@@ -164,7 +164,7 @@ const epochETA = computed(() => {
   gap: 1rem;
   font-size: 1.2rem;
   font-weight: bold;
-  background-color: #dfdfdf;
+  background-color: var(--background-color-stats-card);
   padding: 1.2rem;
   border-radius: 0.5rem;
   width: 11rem;
@@ -208,11 +208,12 @@ const epochETA = computed(() => {
 
 .container input {
   width: min(20rem, 60%);
-
   border-radius: 0.5rem;
   border: #b3b6b9 1.5px solid;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
+  background-color: var(--background-color-input);
+  color: var(--text-color);
 }
 .container > div > span {
   margin-top: 0.5rem;
@@ -225,7 +226,7 @@ const epochETA = computed(() => {
 }
 button {
   width: fit-content;
-  background-color: cornflowerblue;
+  background-color: var(--background-color-button);
   margin-top: 0.5rem;
   padding: 0.4rem;
   padding-left: 0rem;
@@ -239,6 +240,6 @@ button {
   font-size: 1.05rem;
 }
 button:hover {
-  background-color: rgb(155, 180, 226);
+  background-color: var(--background-color-button-hover);
 }
 </style>

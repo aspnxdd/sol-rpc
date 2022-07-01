@@ -51,38 +51,38 @@ onBeforeUpdate(() => {
 
 <template>
   <section class="container">
-      <div class="args" v-if="methodStore.method">
-        <h3>METHOD: {{ methodStore.method }}</h3>
-        <hr />
-        <span v-for="(arg, index) in args" :key="index">
-          <label for="arg" />
+    <div class="args" v-if="methodStore.method">
+      <h3>METHOD: {{ methodStore.method }}</h3>
+      <hr />
+      <span v-for="(arg, index) in args" :key="index">
+        <label for="arg" />
+        <input
+          id="arg"
+          type="text"
+          :placeholder="`Enter ${arg}`"
+          @change="(e) => (form[index] = (e.target as HTMLInputElement)?.value)"
+          :key="index"
+        />
+        <i>{{ capitalize(arg) }}</i>
+      </span>
+      <div>
+        <h4>Commitment</h4>
+        <div v-for="commitmentOpt in ['confirmed', 'finalized', 'processed']">
           <input
-            id="arg"
-            type="text"
-            :placeholder="`Enter ${arg}`"
-            @change="(e) => (form[index] = (e.target as HTMLInputElement)?.value)"
-            :key="index"
+            @change="() => (commitment = commitmentOpt)"
+            type="radio"
+            :id="commitmentOpt"
+            :name="commitmentOpt"
+            class="commitment"
+            :checked="commitment === commitmentOpt"
           />
-          <i>{{ capitalize(arg) }}</i>
-        </span>
-        <div>
-          <h4>Commitment</h4>
-          <div v-for="commitmentOpt in ['confirmed', 'finalized', 'processed']">
-            <input
-              @change="() => (commitment = commitmentOpt)"
-              type="radio"
-              :id="commitmentOpt"
-              :name="commitmentOpt"
-              class="commitment"
-              :checked="commitment === commitmentOpt"
-            />
-            <label :for="commitmentOpt">{{ commitmentOpt }}</label
-            ><br />
-          </div>
+          <label :for="commitmentOpt">{{ commitmentOpt }}</label
+          ><br />
         </div>
-        <button @click="runMethod">🚀 Send request to RPC node</button>
       </div>
-      <div v-else></div>
+      <button @click="runMethod">🚀 Send request to RPC node</button>
+    </div>
+    <div v-else></div>
   </section>
 </template>
 
@@ -145,7 +145,7 @@ code {
 }
 button {
   width: fit-content;
-  background-color: cornflowerblue;
+  background-color: var(--background-color-button);
   margin-top: 1rem;
   padding: 0.4rem;
   border-radius: 0.5rem;
@@ -157,7 +157,7 @@ button {
   font-weight: 700;
 }
 button:hover {
-  background-color: rgb(155, 180, 226);
+  background-color: var(--background-color-button-hover);
 }
 .commitment {
   transform: scale(1.2);

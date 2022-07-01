@@ -32,7 +32,7 @@ function scrollToTop(){
   font-size: 1.1rem;
   color: #fff;
   margin-top: 1rem;
-  background-color: rgb(73, 73, 83);
+  background-color: rgb(41, 41, 41);
 }
 .twitter {
   display: flex;
