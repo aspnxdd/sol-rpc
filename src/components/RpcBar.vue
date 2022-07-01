@@ -66,11 +66,14 @@ const epochETA = computed(() => {
     <div class="input-bar">
       <span v-if="isError"> Invalid RPC endpoint</span>
       <span v-else> RPC url</span>
-      <input
-        type="text"
-        v-model="rpc"
-        placeholder="https://api.devnet.solana.com/"
-      />
+      <div>
+        <img src="/url.png" width="16" />
+        <input
+          type="text"
+          v-model="rpc"
+          placeholder="https://api.devnet.solana.com/"
+        />
+      </div>
       <button @click="setRpcUrl">⚡ Set RPC node</button>
     </div>
     <Transition>
@@ -148,8 +151,28 @@ const epochETA = computed(() => {
   justify-content: flex-start;
   margin-top: 1rem;
 }
+.container .input-bar > div {
+  width: min(20rem, 60%);
+  height: 3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 1rem;
+  gap: 1rem;
+  border: var(--background-color-input) 1px solid;
+  padding: 0.5rem;
+  background-color: var(--background-color-input);
+  color: var(--text-color);
+}
+.container .input-bar > div:focus-within {
+  border: 1px solid #adb9bb;
+}
+.container .input-bar > div img {
+  filter: invert(100%);
+}
 .container .stats {
-  margin-left: 00rem;
+  margin-left: 0rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -208,13 +231,12 @@ const epochETA = computed(() => {
 }
 
 .container input {
-  width: min(20rem, 60%);
+  width: 100%;
   border-radius: 0.5rem;
   border: var(--background-color-input) 1.5px solid;
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
   background-color: var(--background-color-input);
   color: var(--text-color);
+  outline: none;
 }
 .container > div > span {
   margin-top: 0.5rem;

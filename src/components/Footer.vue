@@ -1,9 +1,7 @@
 <script setup lang="ts">
-
-function scrollToTop(){
+function scrollToTop() {
   window.scrollTo(0, 0);
 }
-
 </script>
 
 <template>
@@ -13,7 +11,7 @@ function scrollToTop(){
       <img src="/tw.png" width="24" />
       <p>@ESArnau</p>
     </a>
-    <a class="twitter" href="https://github.com/aspnxdd">
+    <a class="github" href="https://github.com/aspnxdd">
       <img src="/gh.png" width="24" />
       <p>aspnxdd</p>
     </a>
@@ -22,7 +20,6 @@ function scrollToTop(){
 </template>
 
 <style scoped>
-
 .container {
   position: relative;
   display: flex;
@@ -34,7 +31,8 @@ function scrollToTop(){
   margin-top: 1rem;
   background-color: rgb(21, 21, 21);
 }
-.twitter {
+.twitter,
+.github {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -47,18 +45,19 @@ function scrollToTop(){
 .twitter:hover {
   color: rgb(155, 180, 226);
 }
-.twitter:hover img {
+.twitter:hover,
+.github:hover {
   color: rgb(155, 180, 226);
-  filter: none;
 }
 img {
   filter: grayscale(100%) brightness(1000%) contrast(0%);
 }
+
 .container button {
   position: absolute;
   bottom: 0;
   right: 0;
-  margin:5rem;
+  margin: 5rem;
   background-color: transparent;
   border: 0;
   padding: 0rem;
@@ -72,6 +71,5 @@ img {
 }
 .container button:hover {
   filter: hue-rotate(40deg);
-
 }
 </style>
