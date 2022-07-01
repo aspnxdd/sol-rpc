@@ -43,9 +43,9 @@ body {
   color: var(--text-color);
 }
 body.dark-theme {
-  --background-color: rgb(66, 66, 66);
+  --background-color: #282830;
   --text-color: #fff;
-  --background-color-input: rgb(90, 90, 90);
+  --background-color-input: #33333b;
   --background-color-button: #3d76e1;
   --background-color-button-hover: #7097e0;
   --background-color-stats-card: #6a6969;

@@ -160,7 +160,8 @@ const searchIcon = ref("&#9906;");
   padding: 0.5rem;
   border-radius: 0.5rem;
   margin-left: 1rem;
-  border: #c3cbd4 2.3px solid;
+  margin-right: 1rem;;
+  border: var(--background-color-input) 2.3px solid;
   background-color: var(--background-color-input);
   color: var(--text-color);
 }
@@ -184,6 +185,7 @@ const searchIcon = ref("&#9906;");
   font-weight: bold;
 }
 .methods span:hover {
-  background-color: var(--background-color-input-hover);
+  border: #c3cbd4 2.3px solid;
+
 }
 </style>
