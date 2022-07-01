@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
 import { onMounted, ref } from "vue";
-const darkTheme = ref(false);
+const darkTheme = ref(true);
 function toggleTheme() {
   darkTheme.value = !darkTheme.value;
   document.body.classList.toggle("dark-theme");
