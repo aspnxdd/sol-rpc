@@ -6,11 +6,14 @@ import {
   RpcMethods,
   RpcTopBar,
   Footer,
+  ThemeToggler,
 } from "@components";
 </script>
 
 <template>
   <RpcTopBar />
+  <ThemeToggler />
+
   <RpcBar />
   <div class="grid">
     <RpcMethods />
@@ -33,10 +36,13 @@ import {
 body {
   --background-color: #f5f5f5dc;
   --text-color: #333;
+  --text-color-secondary: rgb(127, 127, 127);
   --background-color-input: #fff;
   --background-color-button: #6495ed;
   --background-color-button-hover: #9bb4e2;
   --background-color-stats-card: #dfdfdf;
+  --invert-percentage: 0%;
+  --theme-toggler-hover: #e4e4e4;
   margin: 0;
   cursor: default;
   background-color: var(--background-color);
@@ -45,10 +51,13 @@ body {
 body.dark-theme {
   --background-color: #282830;
   --text-color: #fff;
+  --text-color-secondary: rgb(132, 132, 132);
   --background-color-input: #33333b;
   --background-color-button: #3d76e1;
   --background-color-button-hover: #7097e0;
   --background-color-stats-card: #6a6969;
+  --invert-percentage: 100%;
+  --theme-toggler-hover: #393939;
 }
 html {
   height: 100vh;

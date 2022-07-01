@@ -1,16 +1,6 @@
 <script setup lang="ts">
 import { useRpcStore } from "@stores";
-import { computed } from "@vue/reactivity";
-import { ref } from "vue";
 const rpcStore = useRpcStore();
-const darkTheme = ref(false);
-function toggleTheme() {
-  darkTheme.value = !darkTheme.value;
-  document.body.classList.toggle("dark-theme");
-}
-const themeImg = computed(() => {
-  return darkTheme.value ? "./sun.svg" : "./moon.svg";
-});
 </script>
 
 <template>
@@ -20,7 +10,6 @@ const themeImg = computed(() => {
     >
     <span v-else> ⛔ Not connected </span>
   </Transition>
-  <button @click="toggleTheme"><img :src="themeImg" /></button>
 </template>
 
 <style scoped>
@@ -52,20 +41,5 @@ span {
 }
 span.connected {
   background-color: #0f8000;
-}
-button {
-  z-index: 1;
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin-right: 4rem;
-  background-color: transparent;
-  border: none;
-  font-size: 1.2rem;
-}
-img {
-  filter: invert(100%);
-  margin-top:0.3rem;
-  width: 1.2rem;
 }
 </style>

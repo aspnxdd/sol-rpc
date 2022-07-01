@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     RpcMethodArgs: typeof import('./src/components/RpcMethodArgs.vue')['default']
     RpcMethods: typeof import('./src/components/RpcMethods.vue')['default']
     RpcTopBar: typeof import('./src/components/RpcTopBar.vue')['default']
+    ThemeToggler: typeof import('./src/components/ThemeToggler.vue')['default']
     Wallet: typeof import('./src/components/Wallet.vue')['default']
   }
 }

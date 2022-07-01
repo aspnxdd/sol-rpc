@@ -210,7 +210,7 @@ const epochETA = computed(() => {
 .container input {
   width: min(20rem, 60%);
   border-radius: 0.5rem;
-  border: var(--background-color-input)1.5px solid;
+  border: var(--background-color-input) 1.5px solid;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   background-color: var(--background-color-input);

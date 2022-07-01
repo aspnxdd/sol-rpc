@@ -13,7 +13,7 @@ function scrollToTop(){
       <img src="/tw.png" width="24" />
       <p>@ESArnau</p>
     </a>
-    <a class="twitter" href="https://twitter.com/ESArnau">
+    <a class="twitter" href="https://github.com/aspnxdd">
       <img src="/gh.png" width="24" />
       <p>aspnxdd</p>
     </a>
@@ -32,7 +32,7 @@ function scrollToTop(){
   font-size: 1.1rem;
   color: #fff;
   margin-top: 1rem;
-  background-color: rgb(41, 41, 41);
+  background-color: rgb(21, 21, 21);
 }
 .twitter {
   display: flex;

@@ -93,10 +93,8 @@ const searchIcon = ref("&#9906;");
   justify-content: center;
   width: 100%;
   height: 3rem;
-  border: 1px solid #9ca3af;
   border-radius: 0.5rem;
   background-color: var(--background-color-input);
-
   padding-left: 1rem;
 }
 .search-bar input {
@@ -164,6 +162,7 @@ const searchIcon = ref("&#9906;");
   border: var(--background-color-input) 2.3px solid;
   background-color: var(--background-color-input);
   color: var(--text-color);
+  transition: all 0.05s ease-in-out;
 }
 
 .methods span strong {
@@ -185,7 +184,7 @@ const searchIcon = ref("&#9906;");
   font-weight: bold;
 }
 .methods span:hover {
-  border: #c3cbd4 2.3px solid;
+  border: var(--text-color-secondary) 2.3px solid;
 
 }
 </style>
