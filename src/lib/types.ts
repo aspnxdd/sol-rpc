@@ -1,4 +1,4 @@
-import { Commitment } from "@solana/web3.js";
+import { Commitment } from '@solana/web3.js';
 
 export type RpcError = { error: string };
 export type Blockhash = Readonly<{
@@ -8,5 +8,5 @@ export type Blockhash = Readonly<{
 
 export type CommitmentWithoutDeprecated = Omit<
   Commitment,
-  "recent" | "single" | "singleGossip" | "root" | "max"
+  'recent' | 'single' | 'singleGossip' | 'root' | 'max'
 >;

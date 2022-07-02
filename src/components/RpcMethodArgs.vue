@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { ref, onBeforeUpdate } from "vue";
-import { RpcMethods, RPCMethods } from "@lib/rpcMethods";
-import { getParamNames, capitalize } from "@lib/utils";
-import { useRpcStore, useLogsStore, useMethodsStore } from "@stores";
-import { CommitmentWithoutDeprecated } from "@lib/types";
+import { ref, onBeforeUpdate } from 'vue';
+import { RpcMethods, RPCMethods } from '@lib/rpcMethods';
+import { getParamNames, capitalize } from '@lib/utils';
+import { useRpcStore, useLogsStore, useMethodsStore } from '@stores';
+import { CommitmentWithoutDeprecated } from '@lib/types';
 
 const rpcStore = useRpcStore();
 const methodStore = useMethodsStore();
 const logsStore = useLogsStore();
 const args = ref<any[]>([]);
 const form = ref<any[]>([]);
-const commitment = ref<CommitmentWithoutDeprecated>("confirmed");
+const commitment = ref<CommitmentWithoutDeprecated>('confirmed');
 function getMethods() {
   const f = new RpcMethods(rpcStore.url!, commitment.value)[
     methodStore.method as keyof RPCMethods
   ];
   const params = getParamNames(f) as Parameters<typeof f>;
-  console.log("pa", params);
+  console.log('pa', params);
   args.value = params;
 }
 async function runMethod() {
@@ -27,10 +27,10 @@ async function runMethod() {
     methodStore.method as keyof RPCMethods
   ](
     // @ts-ignore
-    ...form.value
+    ...form.value,
   )) as Record<string, any>;
 
-  console.log("f", f);
+  console.log('f', f);
 
   const obj = {} as Record<string, any>;
   for (const [index, key] of Object.keys(f).entries()) {
@@ -152,7 +152,7 @@ button {
   border: 0;
   color: whitesmoke;
   transition: all 0.2s ease-in-out;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   width: 92%;
   font-weight: 700;
 }

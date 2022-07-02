@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useRpcStore } from "@stores";
-import { RpcMethods } from "@lib/rpcMethods";
-import { ref, computed } from "vue";
-import { castToDesiredType, parseTime } from "@lib/utils";
-import { RpcError, Blockhash } from "@lib/types";
-import { Version, EpochInfo } from "@solana/web3.js";
+import { useRpcStore } from '@stores';
+import { RpcMethods } from '@lib/rpcMethods';
+import { ref, computed } from 'vue';
+import { castToDesiredType, parseTime } from '@lib/utils';
+import { RpcError, Blockhash } from '@lib/types';
+import { Version, EpochInfo } from '@solana/web3.js';
 
 const rpcStore = useRpcStore();
 const rpc = ref<string | null>(rpcStore.url);
@@ -19,7 +19,7 @@ async function isRpcEndpointValid() {
     const connection = new RpcMethods(rpc.value);
 
     const blockhash = await connection.getLatestBlockhash();
-    version.value = ((await connection.getVersion()) as Version)["solana-core"];
+    version.value = ((await connection.getVersion()) as Version)['solana-core'];
     if (castToDesiredType<Blockhash, RpcError>(blockhash)) {
       lastBlockhash.value = blockhash.lastValidBlockHeight;
     }
@@ -27,7 +27,7 @@ async function isRpcEndpointValid() {
 
     if (castToDesiredType<EpochInfo, RpcError>(epochInfo)) {
       epochPercentage.value = Number(
-        ((epochInfo.slotIndex / epochInfo.slotsInEpoch) * 100).toFixed(1)
+        ((epochInfo.slotIndex / epochInfo.slotsInEpoch) * 100).toFixed(1),
       );
     }
     if (lastBlockhash.value) {
@@ -125,7 +125,7 @@ const epochETA = computed(() => {
   position: relative;
 }
 .progress-bar::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -259,7 +259,7 @@ button {
   color: whitesmoke;
   width: min(10rem, 60%);
   transition: all 0.2s ease-in-out;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.05rem;
 }
 button:hover {

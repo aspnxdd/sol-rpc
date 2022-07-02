@@ -1,5 +1,5 @@
-import * as web3 from "@solana/web3.js";
-import { RpcError, Blockhash, CommitmentWithoutDeprecated } from "@lib/types";
+import * as web3 from '@solana/web3.js';
+import { RpcError, Blockhash, CommitmentWithoutDeprecated } from '@lib/types';
 
 abstract class RPC {
   connection: web3.Connection;
@@ -13,12 +13,12 @@ export interface RPCMethods {
   getBalance: (address: string) => Promise<{ balance: number } | RpcError>;
   getLatestBlockhash: (address: string) => Promise<Blockhash | RpcError>;
   getAccountInfo: (
-    address: string
+    address: string,
   ) => Promise<web3.AccountInfo<Buffer> | null | RpcError>;
-  getGenesisHash(): Promise<Record<"genesisHash", string> | RpcError>;
+  getGenesisHash(): Promise<Record<'genesisHash', string> | RpcError>;
   getSupply(): Promise<web3.Supply | RpcError>;
   getBlock(slot: string): Promise<web3.BlockResponse | null | RpcError>;
-  getBlockHeight(): Promise<Record<"blockHeight", number> | RpcError>;
+  getBlockHeight(): Promise<Record<'blockHeight', number> | RpcError>;
   getBlockProduction(): Promise<
     web3.RpcResponseAndContext<web3.BlockProduction> | RpcError
   >;
@@ -27,33 +27,33 @@ export interface RPCMethods {
   getEpochInfo(): Promise<web3.EpochInfo | RpcError>;
   getEpochSchedule(): Promise<web3.EpochSchedule | RpcError>;
   getFeeForMessage(
-    message: string
+    message: string,
   ): Promise<web3.RpcResponseAndContext<number> | RpcError>;
   getFirstAvailableBlock(): Promise<
-    Record<"firstAvailableBlock", number> | RpcError
+    Record<'firstAvailableBlock', number> | RpcError
   >;
   getInflationGovernor(): Promise<web3.InflationGovernor | RpcError>;
   getInflationReward(
     addresses: string,
-    epoch?: number | undefined
+    epoch?: number | undefined,
   ): Promise<(web3.InflationReward | null)[] | RpcError>;
   getSignatureStatus(
-    signature: string
+    signature: string,
   ): Promise<
     web3.RpcResponseAndContext<web3.SignatureStatus | null> | RpcError
   >;
   getSignatureStatuses(
-    signatures: string[]
+    signatures: string[],
   ): Promise<
     web3.RpcResponseAndContext<(web3.SignatureStatus | null)[]> | RpcError
   >;
   getSignaturesForAddress(
-    address: string
+    address: string,
   ): Promise<web3.ConfirmedSignatureInfo[] | RpcError>;
 
   getMinimumBalanceForRentExemption(
-    datalength: number
-  ): Promise<Record<"rent", number> | RpcError>;
+    datalength: number,
+  ): Promise<Record<'rent', number> | RpcError>;
   getVersion(): Promise<web3.Version | RpcError>;
 }
 export class RpcMethods extends RPC implements RPCMethods {
@@ -65,7 +65,7 @@ export class RpcMethods extends RPC implements RPCMethods {
     try {
       const balance = await this.connection.getBalance(
         new web3.PublicKey(address),
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return { balance };
     } catch (err) {
@@ -75,14 +75,14 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getAccountInfo(
-    address: string
+    address: string,
   ): Promise<web3.AccountInfo<Buffer> | null | RpcError> {
     try {
       const accountInfo = await this.connection.getAccountInfo(
         new web3.PublicKey(address),
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
-      if (!accountInfo) throw new Error("Account not found");
+      if (!accountInfo) throw new Error('Account not found');
 
       return accountInfo;
     } catch (err) {
@@ -94,7 +94,7 @@ export class RpcMethods extends RPC implements RPCMethods {
   public async getLatestBlockhash(): Promise<Blockhash | RpcError> {
     try {
       const latestBlockhash = await this.connection.getLatestBlockhash(
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return latestBlockhash;
     } catch (err) {
@@ -104,7 +104,7 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getGenesisHash(): Promise<
-    Record<"genesisHash", string> | RpcError
+    Record<'genesisHash', string> | RpcError
   > {
     try {
       const genesisHash = await this.connection.getGenesisHash();
@@ -120,7 +120,7 @@ export class RpcMethods extends RPC implements RPCMethods {
   public async getSupply(): Promise<web3.Supply | RpcError> {
     try {
       const supply = await this.connection.getSupply(
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return supply.value;
     } catch (err) {
@@ -130,13 +130,13 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getBlock(
-    slot: string
+    slot: string,
   ): Promise<web3.BlockResponse | null | RpcError> {
     try {
       const block = await this.connection.getBlock(parseInt(slot), {
-        commitment: "confirmed",
+        commitment: 'confirmed',
       });
-      if (!block) throw new Error("Block not found");
+      if (!block) throw new Error('Block not found');
       return block;
     } catch (err) {
       console.log(err);
@@ -145,11 +145,11 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getBlockHeight(): Promise<
-    Record<"blockHeight", number> | RpcError
+    Record<'blockHeight', number> | RpcError
   > {
     try {
       const blockHeight = await this.connection.getBlockHeight(
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return { blockHeight };
     } catch (err) {
@@ -163,7 +163,7 @@ export class RpcMethods extends RPC implements RPCMethods {
   > {
     try {
       const blockProduction = await this.connection.getBlockProduction(
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return blockProduction;
     } catch (err) {
@@ -173,11 +173,11 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getBlockSignatures(
-    slot: string
+    slot: string,
   ): Promise<web3.BlockSignatures | RpcError> {
     try {
       const blockSignature = await this.connection.getBlockSignatures(
-        parseInt(slot)
+        parseInt(slot),
       );
       return blockSignature;
     } catch (err) {
@@ -199,7 +199,7 @@ export class RpcMethods extends RPC implements RPCMethods {
   public async getEpochInfo(): Promise<web3.EpochInfo | RpcError> {
     try {
       const epochInfo = await this.connection.getEpochInfo(
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return epochInfo;
     } catch (err) {
@@ -219,13 +219,13 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getFeeForMessage(
-    message: string
+    message: string,
   ): Promise<web3.RpcResponseAndContext<number> | RpcError> {
     try {
       const _message = web3.Message.from(new TextEncoder().encode(message));
       const feeForMessage = await this.connection.getFeeForMessage(
         _message,
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return feeForMessage;
     } catch (err) {
@@ -235,7 +235,7 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getFirstAvailableBlock(): Promise<
-    Record<"firstAvailableBlock", number> | RpcError
+    Record<'firstAvailableBlock', number> | RpcError
   > {
     try {
       const firstAvailableBlock =
@@ -252,7 +252,7 @@ export class RpcMethods extends RPC implements RPCMethods {
   > {
     try {
       const inflationGovernor = await this.connection.getInflationGovernor(
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return inflationGovernor;
     } catch (err) {
@@ -263,17 +263,17 @@ export class RpcMethods extends RPC implements RPCMethods {
 
   public async getInflationReward(
     addresses: string,
-    epoch?: number | undefined
+    epoch?: number | undefined,
   ): Promise<(web3.InflationReward | null)[] | RpcError> {
     try {
       const _addresses = addresses
-        .split(",")
+        .split(',')
         .map((address) => new web3.PublicKey(address));
 
       const inflationReward = await this.connection.getInflationReward(
         _addresses,
         epoch,
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return inflationReward;
     } catch (err) {
@@ -283,7 +283,7 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getSignatureStatus(
-    signature: string
+    signature: string,
   ): Promise<
     web3.RpcResponseAndContext<web3.SignatureStatus | null> | RpcError
   > {
@@ -297,7 +297,7 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getSignatureStatuses(
-    signatures: string[]
+    signatures: string[],
   ): Promise<
     web3.RpcResponseAndContext<(web3.SignatureStatus | null)[]> | RpcError
   > {
@@ -311,11 +311,11 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getSignaturesForAddress(
-    address: string
+    address: string,
   ): Promise<web3.ConfirmedSignatureInfo[] | RpcError> {
     try {
       const signature = await this.connection.getSignaturesForAddress(
-        new web3.PublicKey(address)
+        new web3.PublicKey(address),
       );
       return signature;
     } catch (err) {
@@ -325,12 +325,12 @@ export class RpcMethods extends RPC implements RPCMethods {
   }
 
   public async getMinimumBalanceForRentExemption(
-    datalength: number
-  ): Promise<Record<"rent", number> | RpcError> {
+    datalength: number,
+  ): Promise<Record<'rent', number> | RpcError> {
     try {
       const rent = await this.connection.getMinimumBalanceForRentExemption(
         Number(datalength),
-        this.commitment as web3.Commitment
+        this.commitment as web3.Commitment,
       );
       return { rent };
     } catch (err) {

@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { Methods } from "../stores/Method";
-import { useRpcStore, useMethodsStore } from "@stores";
-import { debounce } from "@lib/utils";
+import { ref, watch } from 'vue';
+import { Methods } from '../stores/Method';
+import { useRpcStore, useMethodsStore } from '@stores';
+import { debounce } from '@lib/utils';
 const rpcStore = useRpcStore();
 const methodStore = useMethodsStore();
 const methods = ref<Methods[]>([
-  "getVersion",
-  "getBalance",
-  "getAccountInfo",
-  "getLatestBlockhash",
-  "getGenesisHash",
-  "getSupply",
-  "getBlock",
-  "getBlockHeight",
-  "getBlockProduction",
-  "getBlockSignatures",
-  "getClusterNodes",
-  "getEpochInfo",
-  "getEpochSchedule",
-  "getFeeForMessage",
-  "getFirstAvailableBlock",
-  "getInflationGovernor",
-  "getInflationReward",
-  "getSignatureStatus",
-  "getSignatureStatuses",
-  "getSignaturesForAddress",
-  "getMinimumBalanceForRentExemption",
+  'getVersion',
+  'getBalance',
+  'getAccountInfo',
+  'getLatestBlockhash',
+  'getGenesisHash',
+  'getSupply',
+  'getBlock',
+  'getBlockHeight',
+  'getBlockProduction',
+  'getBlockSignatures',
+  'getClusterNodes',
+  'getEpochInfo',
+  'getEpochSchedule',
+  'getFeeForMessage',
+  'getFirstAvailableBlock',
+  'getInflationGovernor',
+  'getInflationReward',
+  'getSignatureStatus',
+  'getSignatureStatuses',
+  'getSignaturesForAddress',
+  'getMinimumBalanceForRentExemption',
 ]);
 const methodsFiltered = ref<Methods[]>(methods.value);
-const searchQuery = ref<string>("");
+const searchQuery = ref<string>('');
 
 const queryFn = debounce((query: string) => {
-  if (query == "") {
+  if (query == '') {
     methodsFiltered.value = methods.value;
     return;
   }
   methodsFiltered.value = methods.value.filter((method) =>
-    method.toLowerCase().includes(query.toLowerCase())
+    method.toLowerCase().includes(query.toLowerCase()),
   );
   return;
 }, 300);
@@ -45,10 +45,10 @@ function setMethod(method: Methods) {
   methodStore.setMethod(method);
 }
 function clearSearchbar() {
-  searchQuery.value = "";
+  searchQuery.value = '';
 }
 watch(searchQuery, queryFn);
-const searchIcon = ref("&#9906;");
+const searchIcon = ref('&#9906;');
 </script>
 
 <template>
@@ -158,7 +158,7 @@ const searchIcon = ref("&#9906;");
   padding: 0.5rem;
   border-radius: 0.5rem;
   margin-left: 1rem;
-  margin-right: 1rem;;
+  margin-right: 1rem;
   border: var(--background-color-input) 2.3px solid;
   background-color: var(--background-color-input);
   color: var(--text-color);
@@ -170,7 +170,6 @@ const searchIcon = ref("&#9906;");
   transform: scaleY(1.5) scaleX(0.9);
   color: rgb(5, 52, 122);
   color: var(--text-color);
-
 }
 .methods span p {
   margin: 0;
@@ -185,6 +184,5 @@ const searchIcon = ref("&#9906;");
 }
 .methods span:hover {
   border: var(--text-color-secondary) 2.3px solid;
-
 }
 </style>

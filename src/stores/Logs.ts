@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
-const useLogsStore = defineStore("logsStore", {
+const useLogsStore = defineStore('logsStore', {
   state: () => ({
     logs: [] as string[],
   }),

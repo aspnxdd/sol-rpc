@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRpcStore } from "@stores";
+import { useRpcStore } from '@stores';
 const rpcStore = useRpcStore();
 </script>
 

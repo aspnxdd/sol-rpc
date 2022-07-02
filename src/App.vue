@@ -7,7 +7,7 @@ import {
   RpcTopBar,
   Footer,
   ThemeToggler,
-} from "@components";
+} from '@components';
 </script>
 
 <template>
@@ -24,11 +24,11 @@ import {
 </template>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 *,
 *::after,
 *::before {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

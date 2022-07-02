@@ -1,9 +1,9 @@
 const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm;
 const ARGUMENT_NAMES = /([^\s,]+)/g;
 export function getParamNames(func: Function) {
-  var fnStr = func.toString().replace(STRIP_COMMENTS, "");
+  var fnStr = func.toString().replace(STRIP_COMMENTS, '');
   var result = fnStr
-    .slice(fnStr.indexOf("(") + 1, fnStr.indexOf(")"))
+    .slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')'))
     .match(ARGUMENT_NAMES);
   if (result === null) result = [];
   return result;
@@ -14,7 +14,7 @@ export function capitalize(string: string) {
 }
 
 export function castToDesiredType<Expected, O>(
-  toBeDetermined: Expected | O
+  toBeDetermined: Expected | O,
 ): toBeDetermined is Expected {
   if (toBeDetermined as Expected) {
     return true;
@@ -24,7 +24,7 @@ export function castToDesiredType<Expected, O>(
 
 export function debounce<T extends unknown[], U>(
   callback: (...args: T) => PromiseLike<U> | U,
-  wait: number
+  wait: number,
 ) {
   let timer: number | NodeJS.Timeout;
   return (...args: T): Promise<U> => {

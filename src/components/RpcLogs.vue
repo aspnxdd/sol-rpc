@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import {  useLogsStore } from "@stores";
+import { useLogsStore } from '@stores';
 const logsStore = useLogsStore();
 
 function downloadLogs() {
-  const blob = new Blob([logsStore.logs.toString()], { type: "text/plain" });
+  const blob = new Blob([logsStore.logs.toString()], { type: 'text/plain' });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
+  const link = document.createElement('a');
   link.href = url;
-  link.download = "logs.txt";
+  link.download = 'logs.txt';
   link.click();
   URL.revokeObjectURL(url);
 }
 </script>
 
 <template>
-  <section class="container">
+ <section class="container">
     <code>
       <div class="sticky">
         <h3>Logs</h3>
@@ -34,11 +34,11 @@ function downloadLogs() {
       </span>
     </code>
   </section>
-</template>
+  </template>
 
 <style scoped>
 .container {
-   margin-top: 2rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -46,21 +46,24 @@ function downloadLogs() {
   width: 39vw;
   height: 79vh;
 }
+
 hr {
   margin: 0;
   border: 0;
   border-top: 1px solid rgb(92, 92, 92);
   width: 13rem;
 }
+
 h3 {
   margin: 1rem;
   text-align: left;
 }
+
 p {
   margin: 1rem;
   text-align: left;
   padding: 0.2rem;
-  font-family: Consolas,monaco,monospace; 
+  font-family: Consolas, monaco, monospace;
 }
 
 p.error {
@@ -68,22 +71,24 @@ p.error {
   border-top: 1px solid red;
   border-bottom: 1px solid red;
 }
+
 p pre {
-  margin-left:1rem;
+  margin-left: 1rem;
   background-color: rgb(48, 48, 48);
-  padding:0.5rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
   text-overflow: clip;
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-family: Consolas,monaco,monospace; 
+  font-family: Consolas, monaco, monospace;
 }
+
 code {
   background-color: rgb(27, 26, 26);
   border-radius: 4px;
   color: #ffffff;
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   position: relative;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -91,15 +96,15 @@ code {
 
 code .sticky {
   position: sticky;
-  top:0;
+  top: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-right:1rem;
+  padding-right: 1rem;
   background-color: rgb(20, 19, 19);
-
 }
+
 code .sticky button {
   background-color: rgb(202, 202, 202);
   color: #000000;
@@ -110,11 +115,12 @@ code .sticky button {
   font-weight: bold;
   transition: all 0.1s ease-in-out;
 }
+
 code .sticky button:hover {
   background-color: rgb(148, 148, 148);
-
 }
-h3{
-  height:100%;
+
+h3 {
+  height: 100%;
 }
 </style>

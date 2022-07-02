@@ -2,34 +2,34 @@
  * @vitest-environment happy-dom
  */
 
-import { beforeEach, describe, expect, test, vi } from "vitest";
-import { mount } from "@vue/test-utils";
-import { createTestingPinia, TestingOptions } from "@pinia/testing";
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { mount } from '@vue/test-utils';
+import { createTestingPinia, TestingOptions } from '@pinia/testing';
 
-import { RpcTopBar, RpcBar } from "@components";
-import { useLogsStore, useRpcStore } from "@stores";
-import { setActivePinia, createPinia } from "pinia";
+import { RpcTopBar, RpcBar } from '@components';
+import { useLogsStore, useRpcStore } from '@stores';
+import { setActivePinia, createPinia } from 'pinia';
 
-const API = "https://api.devnet.solana.com/";
-describe("Logs Store", () => {
+const API = 'https://api.devnet.solana.com/';
+describe('Logs Store', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
   });
 
-  test("inits", () => {
+  test('inits', () => {
     const logsStore = useLogsStore();
     expect(logsStore.logs).toEqual([]);
   });
 
-  test("add some log", () => {
+  test('add some log', () => {
     const logsStore = useLogsStore();
-    logsStore.setLogs("hello");
-    expect(logsStore.logs).toEqual(["hello"]);
+    logsStore.setLogs('hello');
+    expect(logsStore.logs).toEqual(['hello']);
   });
 
-  test("clear logs", () => {
+  test('clear logs', () => {
     const logsStore = useLogsStore();
-    logsStore.setLogs("hello");
+    logsStore.setLogs('hello');
     logsStore.clearLogs();
     expect(logsStore.logs).toEqual([]);
   });
@@ -47,33 +47,33 @@ function factory(options?: TestingOptions) {
   return { wrapper, rpcStore };
 }
 
-describe("RpcBar", () => {
+describe('RpcBar', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
   });
 
-  test("can mount RpcBar", () => {
+  test('can mount RpcBar', () => {
     const { wrapper } = factory();
 
     expect(wrapper.exists()).toBe(true);
   });
-  test("Not connected text", () => {
+  test('Not connected text', () => {
     const { wrapper } = factory();
 
-    expect(wrapper.find("span").text()).toBe("RPC url:");
+    expect(wrapper.find('span').text()).toBe('RPC url:');
   });
-  test("Connected text", async () => {
+  test('Connected text', async () => {
     const { wrapper, rpcStore } = factory({
       stubActions: true,
       createSpy: vi.fn,
     });
-    wrapper.findAll("input")[0].setValue(API);
-    expect(wrapper.findAll("input")[0].element.value).toBe(API);
-    const button = wrapper.findAll("button")[0];
+    wrapper.findAll('input')[0].setValue(API);
+    expect(wrapper.findAll('input')[0].element.value).toBe(API);
+    const button = wrapper.findAll('button')[0];
     expect(button).toHaveBeenCalledTimes(0);
-    await button.trigger("click.left");
+    await button.trigger('click.left');
     expect(button).toHaveBeenCalledTimes(1);
-    expect(wrapper.find("span").text()).toBe(`RPC url: ${API}`);
+    expect(wrapper.find('span').text()).toBe(`RPC url: ${API}`);
     // rpcStore.setUrl(API);
     // expect(rpcStore.setUrl).toHaveBeenCalledTimes(1);
 

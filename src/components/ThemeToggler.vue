@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { computed } from "@vue/reactivity";
-import { onMounted, ref } from "vue";
+import { computed } from '@vue/reactivity';
+import { onMounted, ref } from 'vue';
 const darkTheme = ref(true);
 function toggleTheme() {
   darkTheme.value = !darkTheme.value;
-  document.body.classList.toggle("dark-theme");
-  localStorage.setItem("sol-rpc-theme", darkTheme.value ? "dark" : "light");
+  document.body.classList.toggle('dark-theme');
+  localStorage.setItem('sol-rpc-theme', darkTheme.value ? 'dark' : 'light');
 }
 const themeImg = computed(() => {
-  return darkTheme.value ? "./sun.svg" : "./moon.svg";
+  return darkTheme.value ? './sun.svg' : './moon.svg';
 });
 onMounted(() => {
   const moon = new Image();
-  moon.src = "./moon.svg";
+  moon.src = './moon.svg';
   const sun = new Image();
-  sun.src = "./sun.svg";
-  const theme = localStorage.getItem("sol-rpc-theme");
-  darkTheme.value = theme === "dark";
-  darkTheme.value && document.body.classList.add("dark-theme");
+  sun.src = './sun.svg';
+  const theme = localStorage.getItem('sol-rpc-theme');
+  darkTheme.value = theme === 'dark';
+  darkTheme.value && document.body.classList.add('dark-theme');
 });
 </script>
 
@@ -32,7 +32,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* we will explain what these classes do next! */
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
@@ -57,7 +56,7 @@ button {
   width: 1rem;
   height: 1rem;
   outline: none;
-    border-radius: 25%;
+  border-radius: 25%;
 }
 button:hover {
   background-color: var(--theme-toggler-hover);
