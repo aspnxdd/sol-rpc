@@ -27,6 +27,7 @@ const methods = ref<Methods[]>([
   'getSignatureStatuses',
   'getSignaturesForAddress',
   'getMinimumBalanceForRentExemption',
+  'getRecentPerformanceSamples',
 ]);
 const methodsFiltered = ref<Methods[]>(methods.value);
 const searchQuery = ref<string>('');

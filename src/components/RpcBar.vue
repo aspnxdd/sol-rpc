@@ -4,7 +4,7 @@ import { RpcMethods } from '@lib/rpcMethods';
 import { ref, computed } from 'vue';
 import { castToDesiredType, parseTime } from '@lib/utils';
 import { RpcError, Blockhash } from '@lib/types';
-import { Version, EpochInfo } from '@solana/web3.js';
+import { Version, EpochInfo, PerfSample } from '@solana/web3.js';
 
 const rpcStore = useRpcStore();
 const rpc = ref<string | null>(rpcStore.url);
@@ -12,6 +12,7 @@ const lastBlockhash = ref<number | null>(null);
 const version = ref<null | string>(null);
 const isError = ref(false);
 const epochPercentage = ref(0);
+
 
 async function isRpcEndpointValid() {
   try {
@@ -169,7 +170,7 @@ const epochETA = computed(() => {
   border: 1px solid #adb9bb;
 }
 .container .input-bar > div img {
-  filter: invert(100%);
+  filter: invert(var(--invert-percentage));
 }
 .container .stats {
   margin-left: 0rem;

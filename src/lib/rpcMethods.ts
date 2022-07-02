@@ -55,6 +55,7 @@ export interface RPCMethods {
     datalength: number,
   ): Promise<Record<'rent', number> | RpcError>;
   getVersion(): Promise<web3.Version | RpcError>;
+  getRecentPerformanceSamples(): Promise<web3.PerfSample[] | RpcError>;
 }
 export class RpcMethods extends RPC implements RPCMethods {
   constructor(url: string, commitmentOpt?: CommitmentWithoutDeprecated) {
@@ -343,6 +344,23 @@ export class RpcMethods extends RPC implements RPCMethods {
     try {
       const version = await this.connection.getVersion();
       return version;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getRecentPerformanceSamples(): Promise<
+    web3.PerfSample[] | RpcError
+  > {
+    try {
+      const samples = await this.connection.getRecentPerformanceSamples();
+      const tpsList = samples.reduce((acc, sample) => {
+        const tps = sample.numTransactions / sample.samplePeriodSecs;
+        return acc + tps;
+      }, 0);
+      const averageTps = tpsList / samples.length;
+      return samples;
     } catch (err) {
       console.log(err);
       return { error: (err as Error).message };
