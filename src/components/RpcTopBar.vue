@@ -65,10 +65,15 @@ span {
   left: 0;
   right: 0;
   width: 100%;
-  height: 2rem;
   color: white;
   background-color: #801111;
   font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+span p {
+  margin: 0.4rem;
+  padding: 0;
 }
 span p text {
   color: rgb(255, 255, 0);
