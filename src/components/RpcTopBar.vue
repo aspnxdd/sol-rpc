@@ -66,6 +66,7 @@ span {
   right: 0;
   width: 100%;
   color: white;
+  min-height: 2rem;
   background-color: #801111;
   font-weight: bold;
   margin: 0;
