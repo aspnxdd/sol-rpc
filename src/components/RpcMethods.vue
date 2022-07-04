@@ -3,7 +3,6 @@ import { ref, watch } from 'vue';
 import { Methods } from '../stores/Method';
 import { useRpcStore, useMethodsStore } from '@stores';
 import { debounce } from '@lib/utils';
-const rpcStore = useRpcStore();
 const methodStore = useMethodsStore();
 const methods = ref<Methods[]>([
   'getVersion',
@@ -57,7 +56,7 @@ const searchIcon = ref('&#9906;');
     <div>
       <span class="methods-container">
         <h2>Methods</h2>
-        <span class="search-bar" v-if="rpcStore.url">
+        <span class="search-bar">
           <p v-html="searchIcon"></p>
           <input type="search" v-model="searchQuery" />
           <button @click="clearSearchbar">&#x2715;</button>
@@ -66,13 +65,14 @@ const searchIcon = ref('&#9906;');
       <div class="methods">
         <span
           v-for="method in methodsFiltered"
-          v-if="rpcStore.url"
           @click="() => setMethod(method)"
+          :class="{
+            selected: method === methodStore.method,
+          }"
         >
           <p>{{ method }}</p>
           <strong>></strong>
         </span>
-        <h4 v-else>Enter a valid RPC url</h4>
       </div>
     </div>
   </section>
@@ -97,6 +97,12 @@ const searchIcon = ref('&#9906;');
   border-radius: 0.5rem;
   background-color: var(--background-color-input);
   padding-left: 1rem;
+  border: var(--background-color-input) 1px solid;
+
+}
+.search-bar:focus-within {
+  border: 1px solid #adb9bb;
+
 }
 .search-bar input {
   font-size: 1.05rem;
@@ -183,7 +189,8 @@ const searchIcon = ref('&#9906;');
   overflow: hidden;
   font-weight: bold;
 }
-.methods span:hover {
+.methods span:hover,
+.methods span.selected {
   border: var(--text-color-secondary) 2.3px solid;
 }
 </style>

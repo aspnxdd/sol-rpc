@@ -16,7 +16,8 @@ const epochPercentage = ref(0);
 
 async function isRpcEndpointValid() {
   try {
-    if (!rpc.value) return false;
+    if (!rpc.value || rpc.value=="") return false;
+    console.log(1,rpc.value)
     const connection = new RpcMethods(rpc.value);
 
     const blockhash = await connection.getLatestBlockhash();
@@ -34,6 +35,7 @@ async function isRpcEndpointValid() {
     if (lastBlockhash.value) {
       return true;
     }
+    return false;
   } catch (e) {
     console.error(e);
     return false;
@@ -43,6 +45,7 @@ async function isRpcEndpointValid() {
 const setRpcUrl = async () => {
   try {
     const res = await isRpcEndpointValid();
+    console.log("isRpcEndpointValid",res)
     if (!res) {
       rpcStore.setUrl(null);
       isError.value = true;

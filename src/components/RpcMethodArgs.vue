@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, onBeforeUpdate } from 'vue';
+import { ref, onBeforeUpdate, computed, watch, onUpdated } from 'vue';
 import { RpcMethods, RPCMethods } from '@lib/rpcMethods';
 import { getParamNames, capitalize } from '@lib/utils';
 import { useRpcStore, useLogsStore, useMethodsStore } from '@stores';
 import { CommitmentWithoutDeprecated } from '@lib/types';
+import { on } from 'events';
 
 const rpcStore = useRpcStore();
 const methodStore = useMethodsStore();
@@ -22,7 +23,6 @@ function getMethods() {
 async function runMethod() {
   const requestLog = `⚓ Sending request to ${methodStore.method}`;
   logsStore.setLogs(requestLog);
-
   const f = (await new RpcMethods(rpcStore.url!, commitment.value)[
     methodStore.method as keyof RPCMethods
   ](
@@ -42,16 +42,25 @@ async function runMethod() {
     logsStore.setLogs(`${JSON.stringify(obj, null, 2)}`);
   }
 }
-onBeforeUpdate(() => {
+onUpdated(() => {
   if (methodStore.method) {
     getMethods();
   }
+});
+const buttonContent = computed(() => {
+  if (!rpcStore.url) {
+    return '⚠️ Connect to an RPC';
+  }
+  if (!methodStore.method) {
+    return '🧩 Select a method';
+  }
+  return '🚀 Send request to RPC node';
 });
 </script>
 
 <template>
   <section class="container">
-    <div class="args" v-if="methodStore.method">
+    <div class="args">
       <h3>METHOD: {{ methodStore.method }}</h3>
       <hr />
       <span v-for="(arg, index) in args" :key="index">
@@ -80,9 +89,13 @@ onBeforeUpdate(() => {
           ><br />
         </div>
       </div>
-      <button @click="runMethod">🚀 Send request to RPC node</button>
+      <button
+        @click="runMethod"
+        :disabled="!rpcStore.url || !methodStore.method"
+      >
+        {{ buttonContent }}
+      </button>
     </div>
-    <div v-else></div>
   </section>
 </template>
 
@@ -156,8 +169,12 @@ button {
   width: 92%;
   font-weight: 700;
 }
-button:hover {
+button:hover:not(:disabled) {
   background-color: var(--background-color-button-hover);
+}
+button:disabled {
+  color: var(--color-button-disabled);
+  cursor: not-allowed;
 }
 .commitment {
   transform: scale(1.2);
