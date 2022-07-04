@@ -42,9 +42,6 @@ function scrollToTop() {
   transition: all 0.1s ease-in-out;
   width: fit-content;
 }
-.twitter:hover {
-  color: rgb(155, 180, 226);
-}
 .twitter:hover,
 .github:hover {
   color: rgb(155, 180, 226);

@@ -35,8 +35,8 @@ describe('Logs Store', () => {
   });
 });
 
-function factory(options?: TestingOptions) {
-  const wrapper = mount(RpcBar, {
+function factory(component: any, options?: TestingOptions) {
+  const wrapper = mount(component, {
     global: {
       plugins: [createTestingPinia({ ...options, createSpy: vi.fn })],
     },
@@ -53,53 +53,38 @@ describe('RpcBar', () => {
   });
 
   test('can mount RpcBar', () => {
-    const { wrapper } = factory();
+    const { wrapper } = factory(RpcBar);
 
     expect(wrapper.exists()).toBe(true);
   });
   test('Not connected text', () => {
-    const { wrapper } = factory();
+    const { wrapper } = factory(RpcBar);
 
-    expect(wrapper.find('span').text()).toBe('RPC url:');
+    expect(wrapper.find('span').text()).toBe('RPC url');
   });
-  test('Connected text', async () => {
-    const { wrapper, rpcStore } = factory({
-      stubActions: true,
-      createSpy: vi.fn,
-    });
-    wrapper.findAll('input')[0].setValue(API);
-    expect(wrapper.findAll('input')[0].element.value).toBe(API);
-    const button = wrapper.findAll('button')[0];
-    expect(button).toHaveBeenCalledTimes(0);
-    await button.trigger('click.left');
-    expect(button).toHaveBeenCalledTimes(1);
-    expect(wrapper.find('span').text()).toBe(`RPC url: ${API}`);
-    // rpcStore.setUrl(API);
-    // expect(rpcStore.setUrl).toHaveBeenCalledTimes(1);
-
-    // expect(rpcStore.url).toBe(API);
-  });
+  
 });
 
-// describe("RpcTopBar", () => {
-//   beforeEach(() => {
-//     setActivePinia(createPinia());
-//   });
+describe("RpcTopBar", () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+  });
 
-//   test("can mount rpcTopBar", () => {
-//     const { wrapper } = factory();
+  test("can mount rpcTopBar", () => {
+    const { wrapper } = factory(RpcTopBar);
 
-//     expect(wrapper.exists()).toBe(true);
-//   });
-//   test("Not connected text", () => {
-//     const { wrapper } = factory();
+    expect(wrapper.exists()).toBe(true);
+  });
+  test("Not connected text", () => {
+    const { wrapper } = factory(RpcTopBar);
 
-//     expect(wrapper.find("span").text()).toBe("Not connected");
-//   });
-//   test("Connected text", () => {
-//     const { wrapper, rpcStore } = factory({ stubActions: false });
-//     rpcStore.setUrl(API);
-//     expect(rpcStore.url).toBe(API);
-//     expect(wrapper.find("span").text()).toBe(`RPC url: ${API}`);
-//   });
-// });
+    expect(wrapper.find("span").text()).toBe("⛔ Not connected");
+  });
+  test("Connected text", () => {
+    const { wrapper, rpcStore } = factory(RpcTopBar,{ stubActions: false });
+    rpcStore.setUrl(API);
+    console.log("url2", rpcStore.url);
+    expect(rpcStore.url).toBe(API);
+    expect(wrapper.find("span").text()).toBe(`RPC url: ${API}`);
+  });
+});

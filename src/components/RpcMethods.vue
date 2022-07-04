@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { Methods } from '../stores/Method';
-import { useRpcStore, useMethodsStore } from '@stores';
+import { useMethodsStore } from '@stores';
 import { debounce } from '@lib/utils';
 const methodStore = useMethodsStore();
 const methods = ref<Methods[]>([
@@ -27,6 +27,9 @@ const methods = ref<Methods[]>([
   'getSignaturesForAddress',
   'getMinimumBalanceForRentExemption',
   'getRecentPerformanceSamples',
+  'getLargestAccounts',
+  'getTokenLargestAccounts',
+  'getMultipleAccountsInfo',
 ]);
 const methodsFiltered = ref<Methods[]>(methods.value);
 const searchQuery = ref<string>('');
@@ -98,11 +101,9 @@ const searchIcon = ref('&#9906;');
   background-color: var(--background-color-input);
   padding-left: 1rem;
   border: var(--background-color-input) 1px solid;
-
 }
 .search-bar:focus-within {
   border: 1px solid #adb9bb;
-
 }
 .search-bar input {
   font-size: 1.05rem;

@@ -56,6 +56,18 @@ export interface RPCMethods {
   ): Promise<Record<'rent', number> | RpcError>;
   getVersion(): Promise<web3.Version | RpcError>;
   getRecentPerformanceSamples(): Promise<web3.PerfSample[] | RpcError>;
+  getLargestAccounts(
+    filter?: string,
+  ): Promise<web3.RpcResponseAndContext<web3.AccountBalancePair[]> | RpcError>;
+
+  getTokenLargestAccounts(
+    mintAddress: string,
+  ): Promise<
+    web3.RpcResponseAndContext<web3.TokenAccountBalancePair[]> | RpcError
+  >;
+  getMultipleAccountsInfo(
+    mintAddresses: string,
+  ): Promise<(web3.AccountInfo<Buffer> | null)[] | RpcError>;
 }
 export class RpcMethods extends RPC implements RPCMethods {
   constructor(url: string, commitmentOpt?: CommitmentWithoutDeprecated) {
@@ -355,12 +367,58 @@ export class RpcMethods extends RPC implements RPCMethods {
   > {
     try {
       const samples = await this.connection.getRecentPerformanceSamples();
-      const tpsList = samples.reduce((acc, sample) => {
-        const tps = sample.numTransactions / sample.samplePeriodSecs;
-        return acc + tps;
-      }, 0);
-      const averageTps = tpsList / samples.length;
       return samples;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getLargestAccounts(
+    filter?: string,
+  ): Promise<web3.RpcResponseAndContext<web3.AccountBalancePair[]> | RpcError> {
+    try {
+      const config = {
+        filter: (filter as web3.LargestAccountsFilter) ?? undefined,
+        commitment: this.commitment,
+      } as web3.GetLargestAccountsConfig;
+      const largestAccounts = await this.connection.getLargestAccounts(config);
+      return largestAccounts;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getTokenLargestAccounts(
+    mintAddress: string,
+  ): Promise<
+    web3.RpcResponseAndContext<web3.TokenAccountBalancePair[]> | RpcError
+  > {
+    try {
+      const largestAccounts = await this.connection.getTokenLargestAccounts(
+        new web3.PublicKey(mintAddress),
+        this.commitment as web3.Commitment,
+      );
+      return largestAccounts;
+    } catch (err) {
+      console.log(err);
+      return { error: (err as Error).message };
+    }
+  }
+
+  public async getMultipleAccountsInfo(
+    mintAddresses: string,
+  ): Promise<(web3.AccountInfo<Buffer> | null)[] | RpcError> {
+    try {
+      const _mintAddresses = mintAddresses
+        .split(',')
+        .map((address) => new web3.PublicKey(address));
+      const largestAccounts = await this.connection.getMultipleAccountsInfo(
+        _mintAddresses,
+        this.commitment as web3.Commitment,
+      );
+      return largestAccounts;
     } catch (err) {
       console.log(err);
       return { error: (err as Error).message };

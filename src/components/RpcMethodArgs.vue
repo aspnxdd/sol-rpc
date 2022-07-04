@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, onBeforeUpdate, computed, watch, onUpdated } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { RpcMethods, RPCMethods } from '@lib/rpcMethods';
 import { getParamNames, capitalize } from '@lib/utils';
 import { useRpcStore, useLogsStore, useMethodsStore } from '@stores';
 import { CommitmentWithoutDeprecated } from '@lib/types';
-import { on } from 'events';
 
 const rpcStore = useRpcStore();
 const methodStore = useMethodsStore();
@@ -12,14 +11,15 @@ const logsStore = useLogsStore();
 const args = ref<any[]>([]);
 const form = ref<any[]>([]);
 const commitment = ref<CommitmentWithoutDeprecated>('confirmed');
-function getMethods() {
+
+function getMethodArgs() {
   const f = new RpcMethods(rpcStore.url!, commitment.value)[
     methodStore.method as keyof RPCMethods
   ];
   const params = getParamNames(f) as Parameters<typeof f>;
-  console.log('pa', params);
   args.value = params;
 }
+
 async function runMethod() {
   const requestLog = `⚓ Sending request to ${methodStore.method}`;
   logsStore.setLogs(requestLog);
@@ -28,11 +28,9 @@ async function runMethod() {
   ](
     // @ts-ignore
     ...form.value,
-  )) as Record<string, any>;
+  )) as Record<string, unknown>;
 
-  console.log('f', f);
-
-  const obj = {} as Record<string, any>;
+  const obj = {} as Record<string, unknown>;
   for (const [index, key] of Object.keys(f).entries()) {
     obj[key] = Object.values(f)[index];
   }
@@ -42,9 +40,9 @@ async function runMethod() {
     logsStore.setLogs(`${JSON.stringify(obj, null, 2)}`);
   }
 }
-onUpdated(() => {
+watch(methodStore, () => {
   if (methodStore.method) {
-    getMethods();
+    getMethodArgs();
   }
 });
 const buttonContent = computed(() => {
@@ -55,6 +53,13 @@ const buttonContent = computed(() => {
     return '🧩 Select a method';
   }
   return '🚀 Send request to RPC node';
+});
+
+const buttonDisabled = computed(() => {
+  if (!rpcStore.url || !methodStore.method) {
+    return true;
+  }
+  return false;
 });
 </script>
 
@@ -89,10 +94,7 @@ const buttonContent = computed(() => {
           ><br />
         </div>
       </div>
-      <button
-        @click="runMethod"
-        :disabled="!rpcStore.url || !methodStore.method"
-      >
+      <button @click="runMethod" :disabled="buttonDisabled">
         {{ buttonContent }}
       </button>
     </div>
