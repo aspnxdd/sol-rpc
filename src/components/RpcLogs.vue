@@ -25,7 +25,7 @@ function downloadLogs() {
         <p v-if="log.includes('Error')" class="error">
           {{ log }}
         </p>
-        <p v-else-if="log.includes('Sending request to')">
+        <p v-else-if="log.includes('Sending request to') || log.includes('Connected to RPC')">
           {{ log }}
         </p>
         <p v-else>

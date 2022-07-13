@@ -62,7 +62,9 @@ const searchIcon = ref('&#9906;');
         <span class="search-bar">
           <p v-html="searchIcon"></p>
           <input type="search" v-model="searchQuery" />
-          <button @click="clearSearchbar">&#x2715;</button>
+          <button v-if="searchQuery != ''" @click="clearSearchbar">
+            &#x2715;
+          </button>
         </span>
       </span>
       <div class="methods">
@@ -107,7 +109,6 @@ const searchIcon = ref('&#9906;');
 }
 .search-bar input {
   font-size: 1.05rem;
-  margin-right: -1.3rem;
   width: 100%;
   background-color: var(--background-color-input);
   color: var(--text-color);

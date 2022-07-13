@@ -5,9 +5,11 @@ import { castToDesiredType } from '@lib/utils';
 import { PerfSample } from '@solana/web3.js';
 import { useRpcStore } from '@stores';
 import { ref, watch, computed } from 'vue';
+
 const rpcStore = useRpcStore();
 const averageTps = ref<null | number>(null);
 const MIN_TPS = 2500;
+
 async function getNetworkPerformance() {
   const samples = await new RpcMethods(
     rpcStore.url!,
@@ -43,7 +45,6 @@ const networkPerformanceText = computed(() =>
 </template>
 
 <style scoped>
-/* we will explain what these classes do next! */
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;

@@ -56,10 +56,7 @@ const buttonContent = computed(() => {
 });
 
 const buttonDisabled = computed(() => {
-  if (!rpcStore.url || !methodStore.method) {
-    return true;
-  }
-  return false;
+  return !rpcStore.url || !methodStore.method;
 });
 </script>
 

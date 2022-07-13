@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useRpcStore } from '@stores';
+import { useLogsStore, useRpcStore } from '@stores';
 import { RpcMethods } from '@lib/rpcMethods';
 import { ref, computed } from 'vue';
 import { castToDesiredType, parseTime } from '@lib/utils';
 import { RpcError, Blockhash } from '@lib/types';
-import { Version, EpochInfo, PerfSample } from '@solana/web3.js';
+import { Version, EpochInfo } from '@solana/web3.js';
+const logsStore = useLogsStore();
 
 const rpcStore = useRpcStore();
 const rpc = ref<string | null>(rpcStore.url);
@@ -13,11 +14,10 @@ const version = ref<null | string>(null);
 const isError = ref(false);
 const epochPercentage = ref(0);
 
-
 async function isRpcEndpointValid() {
   try {
-    if (!rpc.value || rpc.value=="") return false;
-    console.log(1,rpc.value)
+    if (!rpc.value || rpc.value == '') return false;
+    console.log(1, rpc.value);
     const connection = new RpcMethods(rpc.value);
 
     const blockhash = await connection.getLatestBlockhash();
@@ -33,6 +33,8 @@ async function isRpcEndpointValid() {
       );
     }
     if (lastBlockhash.value) {
+      const log = `🚀 Connected to RPC ${rpc.value}`;
+      logsStore.setLogs(log);
       return true;
     }
     return false;
@@ -45,7 +47,7 @@ async function isRpcEndpointValid() {
 const setRpcUrl = async () => {
   try {
     const res = await isRpcEndpointValid();
-    console.log("isRpcEndpointValid",res)
+    console.log('isRpcEndpointValid', res);
     if (!res) {
       rpcStore.setUrl(null);
       isError.value = true;
@@ -94,7 +96,6 @@ const epochETA = computed(() => {
           <span>🌐 Epoch: </span>
           <div class="progress">
             <p>{{ epochPercentage }}%</p>
-            <!-- <progress id="file" :value="epochPercentage" max="100"></progress> -->
             <div
               role="progressbar"
               class="progress-bar"
@@ -112,7 +113,6 @@ const epochETA = computed(() => {
 </template>
 
 <style scoped>
-/* we will explain what these classes do next! */
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;

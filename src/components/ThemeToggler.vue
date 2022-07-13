@@ -1,22 +1,37 @@
 <script setup lang="ts">
 import { computed } from '@vue/reactivity';
 import { onMounted, ref } from 'vue';
+
 const darkTheme = ref(true);
+
+const moonImg = './moon.svg';
+const sunImg = './sun.svg';
+
+enum Theme {
+  Dark = 'dark',
+  Light = 'light',
+}
+Object.freeze(Theme);
+
 function toggleTheme() {
   darkTheme.value = !darkTheme.value;
   document.body.classList.toggle('dark-theme');
-  localStorage.setItem('sol-rpc-theme', darkTheme.value ? 'dark' : 'light');
+  localStorage.setItem(
+    'sol-rpc-theme',
+    darkTheme.value ? Theme.Dark : Theme.Light,
+  );
 }
 const themeImg = computed(() => {
-  return darkTheme.value ? './sun.svg' : './moon.svg';
+  return darkTheme.value ? sunImg : moonImg;
 });
 onMounted(() => {
+  // cache images in browser
   const moon = new Image();
-  moon.src = './moon.svg';
+  moon.src = moonImg;
   const sun = new Image();
-  sun.src = './sun.svg';
+  sun.src = sunImg;
   const theme = localStorage.getItem('sol-rpc-theme');
-  darkTheme.value = theme === 'dark';
+  darkTheme.value = theme === Theme.Dark;
   darkTheme.value && document.body.classList.add('dark-theme');
 });
 </script>

@@ -9,7 +9,7 @@ abstract class RPC {
     this.commitment = commitmentOpt;
   }
 }
-export interface RPCMethods {
+export declare interface RPCMethods {
   getBalance: (address: string) => Promise<{ balance: number } | RpcError>;
   getLatestBlockhash: (address: string) => Promise<Blockhash | RpcError>;
   getAccountInfo: (
