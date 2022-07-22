@@ -10,16 +10,22 @@ import {
   PhantomWalletAdapter,
   SlopeWalletAdapter,
   SolflareWalletAdapter,
+  SolletExtensionWalletAdapter,
+  SolletWalletAdapter
 } from '@solana/wallet-adapter-wallets';
 
 const walletOptions = {
   wallets: [
     new PhantomWalletAdapter(),
     new SlopeWalletAdapter(),
-    new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+    new SolflareWalletAdapter(),
+    new SolletExtensionWalletAdapter(),
+    new SolletWalletAdapter()
   ],
   autoConnect: true,
 };
+import { initWallet } from 'solana-wallets-vue';
+initWallet(walletOptions);
 const pinia = createPinia();
 const app = createApp(App);
 app.use(pinia, SolanaWallets, walletOptions).mount('#app');

@@ -5,7 +5,7 @@ abstract class RPC {
   connection: web3.Connection;
   commitment?: CommitmentWithoutDeprecated;
   constructor(url: string, commitmentOpt?: CommitmentWithoutDeprecated) {
-    this.connection = new web3.Connection(url!);
+    this.connection = new web3.Connection(url );
     this.commitment = commitmentOpt;
   }
 }

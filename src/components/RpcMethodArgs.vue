@@ -4,16 +4,20 @@ import { RpcMethods, RPCMethods } from '@lib/rpcMethods';
 import { getParamNames, capitalize } from '@lib/utils';
 import { useRpcStore, useLogsStore, useMethodsStore } from '@stores';
 import { CommitmentWithoutDeprecated } from '@lib/types';
+import { useWallet } from 'solana-wallets-vue';
 
 const rpcStore = useRpcStore();
 const methodStore = useMethodsStore();
 const logsStore = useLogsStore();
+const walletStore = useWallet();
+
 const args = ref<any[]>([]);
 const form = ref<any[]>([]);
+const inputValue = ref('');
 const commitment = ref<CommitmentWithoutDeprecated>('confirmed');
-
+const DEFAULT_RPC = 'http://localhost:8800';
 function getMethodArgs() {
-  const f = new RpcMethods(rpcStore.url!, commitment.value)[
+  const f = new RpcMethods(rpcStore.url || DEFAULT_RPC, commitment.value)[
     methodStore.method as keyof RPCMethods
   ];
   const params = getParamNames(f) as Parameters<typeof f>;
@@ -58,6 +62,12 @@ const buttonContent = computed(() => {
 const buttonDisabled = computed(() => {
   return !rpcStore.url || !methodStore.method;
 });
+function setWalletAddress(index: number) {
+  if (walletStore.publicKey.value) {
+    inputValue.value = walletStore.publicKey.value.toBase58();
+    form.value[index] = walletStore.publicKey.value.toBase58();
+  }
+}
 </script>
 
 <template>
@@ -71,10 +81,20 @@ const buttonDisabled = computed(() => {
           id="arg"
           type="text"
           :placeholder="`Enter ${arg}`"
+          :value="inputValue"
           @change="(e) => (form[index] = (e.target as HTMLInputElement)?.value)"
           :key="index"
         />
-        <i>{{ capitalize(arg) }}</i>
+        <div class="under-input">
+          <i>{{ capitalize(arg) }}</i>
+          <button
+            v-if="arg === 'address'"
+            @click="() => setWalletAddress(index)"
+            class="wallet-address"
+          >
+            Use wallet address
+          </button>
+        </div>
       </span>
       <div>
         <h4>Commitment</h4>
@@ -112,6 +132,13 @@ const buttonDisabled = computed(() => {
 }
 .args {
   width: 100%;
+}
+.args .under-input {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 input {
   margin-top: 0.5rem;
@@ -177,5 +204,23 @@ button:disabled {
 }
 .commitment {
   transform: scale(1.2);
+}
+button.wallet-address {
+  background-color: transparent;
+  text-decoration: underline;
+  border: 0;
+  color: var(--color-button-disabled);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+}
+button.wallet-address:hover {
+  background-color: transparent;
+
+  color: var(--color-button-disabled);
 }
 </style>
