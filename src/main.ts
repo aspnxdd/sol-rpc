@@ -10,13 +10,17 @@ import {
   PhantomWalletAdapter,
   SlopeWalletAdapter,
   SolflareWalletAdapter,
+  SolletExtensionWalletAdapter,
+  SolletWalletAdapter
 } from '@solana/wallet-adapter-wallets';
 
 const walletOptions = {
   wallets: [
     new PhantomWalletAdapter(),
     new SlopeWalletAdapter(),
-    new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+    new SolflareWalletAdapter(),
+    new SolletExtensionWalletAdapter(),
+    new SolletWalletAdapter()
   ],
   autoConnect: true,
 };

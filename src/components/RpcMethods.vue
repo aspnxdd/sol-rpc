@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { Methods } from '../stores/Method';
-import { useMethodsStore } from '@stores';
+import { useMethodsStore, useRpcStore } from '@stores';
 import { debounce } from '@lib/utils';
 const methodStore = useMethodsStore();
 const methods = ref<Methods[]>([
@@ -33,6 +33,7 @@ const methods = ref<Methods[]>([
 ]);
 const methodsFiltered = ref<Methods[]>(methods.value);
 const searchQuery = ref<string>('');
+const rpcStore = useRpcStore();
 
 const queryFn = debounce((query: string) => {
   if (query == '') {
@@ -69,6 +70,7 @@ const searchIcon = ref('&#9906;');
       </span>
       <div class="methods">
         <span
+        :disabled="!rpcStore.url"
           v-for="method in methodsFiltered"
           @click="() => setMethod(method)"
           :class="{
