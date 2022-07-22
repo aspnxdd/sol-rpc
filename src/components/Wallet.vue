@@ -22,8 +22,11 @@ const darkTheme = useThemeStore();
 const props = defineProps<WalletProps>();
 
 async function selectWallet(wallet: string) {
-  walletStore.select(wallets.value.find((w) => w.name === wallet)?.name!);
-  await walletStore.connect();
+  const selectedWallet = wallets.value.find((w) => w.name === wallet);
+  if (selectedWallet) {
+    walletStore.select(selectedWallet.name);
+    walletStore.ready.value && (await walletStore.connect());
+  }
 }
 
 globalThis.addEventListener('click', (ev) => {
@@ -107,7 +110,12 @@ function handleCloseModal(ev: MouseEvent) {
             <p>{{ wallet.name }}</p></span
           >
         </div>
-        <button v-if="wallets.length==installedWallets.length" @click="wallets = walletStore.wallets.value">View more 👇</button>
+        <button
+          v-if="wallets.length == installedWallets.length"
+          @click="wallets = walletStore.wallets.value"
+        >
+          View more 👇
+        </button>
       </div>
     </div>
   </Transition>
