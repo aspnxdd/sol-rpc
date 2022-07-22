@@ -5,6 +5,9 @@ import { castToDesiredType } from '@lib/utils';
 import { PerfSample } from '@solana/web3.js';
 import { useRpcStore } from '@stores';
 import { ref, watch, computed } from 'vue';
+import { Wallet } from '@components';
+import { useThemeStore } from '@stores';
+const darkTheme = useThemeStore();
 
 const rpcStore = useRpcStore();
 const averageTps = ref<null | number>(null);
@@ -29,6 +32,13 @@ const tps = computed(() => averageTps.value?.toFixed() ?? 'N/A');
 const networkPerformanceText = computed(() =>
   averageTps.value && averageTps?.value > MIN_TPS ? '' : '⚠️',
 );
+watch(darkTheme, () => {
+  console.log('darkTheme', darkTheme.theme);
+});
+const walletOptions = ref({
+  trimEnd: false ,
+  darkTheme: darkTheme.theme,
+});
 </script>
 
 <template>
@@ -42,6 +52,7 @@ const networkPerformanceText = computed(() =>
     </span>
     <span v-else> ⛔ Not connected </span>
   </Transition>
+  <Wallet :options="walletOptions" />
 </template>
 
 <style scoped>

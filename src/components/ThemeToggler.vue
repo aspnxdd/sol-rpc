@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed } from '@vue/reactivity';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
+import { useThemeStore } from '@stores';
 
-const darkTheme = ref(true);
+const darkTheme = useThemeStore();
 
 const moonImg = './moon.svg';
 const sunImg = './sun.svg';
@@ -14,15 +15,15 @@ enum Theme {
 Object.freeze(Theme);
 
 function toggleTheme() {
-  darkTheme.value = !darkTheme.value;
+  darkTheme.theme = !darkTheme.theme;
   document.body.classList.toggle('dark-theme');
   localStorage.setItem(
     'sol-rpc-theme',
-    darkTheme.value ? Theme.Dark : Theme.Light,
+    darkTheme.theme ? Theme.Dark : Theme.Light,
   );
 }
 const themeImg = computed(() => {
-  return darkTheme.value ? sunImg : moonImg;
+  return darkTheme.theme ? sunImg : moonImg;
 });
 onMounted(() => {
   // cache images in browser
@@ -31,8 +32,8 @@ onMounted(() => {
   const sun = new Image();
   sun.src = sunImg;
   const theme = localStorage.getItem('sol-rpc-theme');
-  darkTheme.value = theme === Theme.Dark;
-  darkTheme.value && document.body.classList.add('dark-theme');
+  darkTheme.theme = theme === Theme.Dark;
+  darkTheme.theme && document.body.classList.add('dark-theme');
 });
 </script>
 

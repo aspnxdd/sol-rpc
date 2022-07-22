@@ -20,6 +20,8 @@ const walletOptions = {
   ],
   autoConnect: true,
 };
+import { initWallet } from 'solana-wallets-vue';
+initWallet(walletOptions);
 const pinia = createPinia();
 const app = createApp(App);
 app.use(pinia, SolanaWallets, walletOptions).mount('#app');
