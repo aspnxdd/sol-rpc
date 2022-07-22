@@ -88,7 +88,7 @@ function setWalletAddress(index: number) {
         <div class="under-input">
           <i>{{ capitalize(arg) }}</i>
           <button
-            v-if="arg === 'address'"
+            v-if="arg === 'address' && walletStore.publicKey.value"
             @click="() => setWalletAddress(index)"
             class="wallet-address"
           >
