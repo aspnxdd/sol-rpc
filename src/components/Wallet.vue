@@ -2,43 +2,46 @@
 import { useWallet } from 'solana-wallets-vue';
 import { computed, ref, watch } from 'vue';
 import { useThemeStore } from '@stores';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
+import { useOnClickOutside } from 'src/hooks';
 
-const walletStore = useWallet();
+const props = defineProps<WalletProps>();
 
-const installedWallets = computed(() =>
-  walletStore.wallets.value.filter((w) => w.readyState === 'Installed'),
-);
-const wallets = ref(installedWallets.value);
-
-const modalOpen = ref(false);
-const dropdownOpen = ref(false);
 interface WalletProps {
   options: {
     trimEnd: boolean;
   };
 }
+
+const walletStore = useWallet();
 const darkTheme = useThemeStore();
 
-const props = defineProps<WalletProps>();
+const installedWallets = computed(() =>
+  walletStore.wallets.value.filter(
+    (w) => w.readyState === WalletReadyState.Installed,
+  ),
+);
+const wallets = ref(installedWallets.value);
+
+const modalOpen = ref(false);
+const dropdownOpen = ref(false);
+const modal = ref<HTMLElement | null>(null);
+const dropdown = ref<HTMLElement | null>(null);
+
+useOnClickOutside(modal, () => {
+  modalOpen.value = false;
+});
+useOnClickOutside(dropdown, () => {
+  dropdownOpen.value = false;
+});
 
 async function selectWallet(wallet: string) {
   const selectedWallet = wallets.value.find((w) => w.name === wallet);
-  if (selectedWallet) {
-    walletStore.select(selectedWallet.name);
-    walletStore.ready.value && (await walletStore.connect());
-  }
+  if (!selectedWallet) return;
+  walletStore.select(selectedWallet.name);
+  walletStore.ready.value && (await walletStore.connect());
 }
 
-globalThis.addEventListener('click', (ev) => {
-  if (
-    dropdownOpen.value &&
-    (ev.target as HTMLElement).className !== 'wallet-dropdown' &&
-    (ev.target as HTMLElement).className !== 'pubkey' &&
-    (ev.target as HTMLElement).id !== 'wallet-image'
-  ) {
-    dropdownOpen.value = !dropdownOpen.value;
-  }
-});
 const darkThemeColors = {
   bg: '#000',
   text: '#fff',
@@ -71,12 +74,6 @@ watch(walletStore.connected, () => {
     modalOpen.value = false;
   }
 });
-
-function handleCloseModal(ev: MouseEvent) {
-  if (ev.target === ev.currentTarget) {
-    modalOpen.value = false;
-  }
-}
 </script>
 
 <template>
@@ -94,6 +91,7 @@ function handleCloseModal(ev: MouseEvent) {
       <div
         class="wallet-dropdown"
         v-if="walletStore.publicKey.value && dropdownOpen"
+        ref="dropdown"
       >
         <span @click="copyPubkeyToClipboard">Copy address</span>
         <span @click="walletStore.disconnect">Disconnect</span>
@@ -101,8 +99,8 @@ function handleCloseModal(ev: MouseEvent) {
     </Transition>
   </button>
   <Transition>
-    <div class="modal" v-if="modalOpen" @click="handleCloseModal">
-      <div class="wallet-floating">
+    <div class="modal" v-if="modalOpen">
+      <div class="wallet-floating" ref="modal">
         <h1>Wallets</h1>
         <div class="wallets" v-for="wallet in wallets">
           <span @click="selectWallet(wallet.name)"

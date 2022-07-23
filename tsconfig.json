@@ -17,7 +17,8 @@
     "paths": {
       "@components": ["src/components/index.ts"],
       "@stores": ["src/stores/index.ts"],
-      "@lib/*": ["src/lib/*"]
+      "@lib/*": ["src/lib/*"],
+      "@hooks/*": ["src/lib/index.ts"]
     }
   },
 
