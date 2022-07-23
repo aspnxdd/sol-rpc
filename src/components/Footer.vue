@@ -1,18 +1,28 @@
 <script setup lang="ts">
+import { usePreloadImages } from 'src/hooks';
+
 function scrollToTop() {
   window.scrollTo(0, 0);
 }
+
+const tw = './tw.png';
+const gh = './gh.png';
+const { imagesPreloaded } = usePreloadImages([tw, gh]);
 </script>
 
 <template>
   <footer class="container">
     <h2>Made by arnau.unwrap()</h2>
-    <a class="twitter" href="https://twitter.com/ESArnau">
-      <img src="/tw.png" width="24" />
+    <a
+      v-if="imagesPreloaded"
+      class="twitter"
+      href="https://twitter.com/ESArnau"
+    >
+      <img :src="tw" width="24" />
       <p>@ESArnau</p>
     </a>
-    <a class="github" href="https://github.com/aspnxdd">
-      <img src="/gh.png" width="24" />
+    <a v-if="imagesPreloaded" class="github" href="https://github.com/aspnxdd">
+      <img :src="gh" width="24" />
       <p>aspnxdd</p>
     </a>
     <button @click="scrollToTop">🔼</button>
