@@ -6,11 +6,14 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Footer: typeof import('./src/components/Footer.vue')['default']
+    Moon: typeof import('./src/components/Moon.vue')['default']
     RpcBar: typeof import('./src/components/RpcBar.vue')['default']
     RpcLogs: typeof import('./src/components/RpcLogs.vue')['default']
     RpcMethodArgs: typeof import('./src/components/RpcMethodArgs.vue')['default']
     RpcMethods: typeof import('./src/components/RpcMethods.vue')['default']
     RpcTopBar: typeof import('./src/components/RpcTopBar.vue')['default']
+    Sun: typeof import('./src/components/Sun.vue')['default']
+    'Sun copy': typeof import('./src/components/Sun copy.vue')['default']
     ThemeToggler: typeof import('./src/components/ThemeToggler.vue')['default']
     Wallet: typeof import('./src/components/Wallet.vue')['default']
   }
