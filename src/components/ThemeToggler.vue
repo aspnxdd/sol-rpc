@@ -18,9 +18,7 @@ function toggleTheme() {
     darkTheme.theme ? Theme.Dark : Theme.Light,
   );
 }
-const themeComponent = computed(() => {
-  return darkTheme.theme ? Sun : Moon;
-});
+const themeComponent = computed(() => (darkTheme.theme ? Sun : Moon));
 </script>
 
 <template>
